@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Desktop: stage is 5 × 100vh. Active frame derives from scroll progress.
+    // Sub-progress (0→1 within active segment) drives staggered text reveal.
     const setupDesktop = () => {
       let raf = null;
       const update = () => {
@@ -227,8 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = stageH - vh;
         if (total <= 0) { setActive(0); return; }
         const progress = Math.max(0, Math.min(1, scrolled / total));
-        const idx = Math.min(frames.length - 1, Math.floor(progress * frames.length));
+        const segments = frames.length;
+        const idx = Math.min(segments - 1, Math.floor(progress * segments));
         setActive(idx);
+        // Compute sub-progress within the active frame's segment, then ease.
+        const subRaw = (progress * segments) - idx;
+        const sub = Math.max(0, Math.min(1, subRaw));
+        // smoothstep easing for a more cinematic reveal curve
+        const eased = sub * sub * (3 - 2 * sub);
+        frames[idx].style.setProperty('--mtd3-sub', eased.toFixed(3));
+        // reset sub on inactive frames (so when re-entering they start at 0)
+        for (let j = 0; j < frames.length; j++) {
+          if (j !== idx) frames[j].style.setProperty('--mtd3-sub', '0');
+        }
       };
       scrollHandler = () => {
         if (raf !== null) return;
