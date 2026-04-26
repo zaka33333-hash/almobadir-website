@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 720 220"
+     preserveAspectRatio="xMidYMid meet"
+     role="img"
+     aria-label="المبادر">
+  <title>المبادر · Almobadir (cream variant)</title>
+  <desc>Almobadir wordmark in cream #F5EAD2 — for use on dark or red backgrounds.</desc>
+  <defs>
+    <style type="text/css"><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@800&family=Tajawal:wght@900&family=Reem+Kufi:wght@700&display=swap');
+      .almobadir-wm-light {
+        font-family: 'Mostaqbali', 'Almarai', 'Tajawal', 'Reem Kufi', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+        font-weight: 900;
+        fill: #F5EAD2;
+      }
+    ]]></style>
+  </defs>
+  <text x="360" y="158"
+        class="almobadir-wm-light"
+        font-size="200"
+        text-anchor="middle"
+        direction="rtl"
+        letter-spacing="-6">المبادر</text>
+</svg>

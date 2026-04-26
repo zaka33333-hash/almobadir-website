@@ -1,0 +1,130 @@
+/* ════════════════════════════════════════════════════════════════
+   Almobadir — brand fonts
+   Drop the licensed font files into /assets/fonts/ to activate.
+   The src list accepts woff2 (preferred), woff, otf, or ttf —
+   the browser picks whichever format you provided.
+
+   Required files (with these exact names, or update the paths below):
+     Mostaqbali-Regular   · Mostaqbali-Medium   · Mostaqbali-Bold   · Mostaqbali-Black
+     GraphikArabic-Regular · GraphikArabic-Medium · GraphikArabic-Semibold · GraphikArabic-Bold
+     MadaniArabic-Regular · MadaniArabic-Medium · MadaniArabic-Bold
+
+   If a file is missing, the @font-face declaration silently fails and
+   the next fallback in tokens.css's --font-ar-* stack takes over.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── MOSTAQBALI — display / titles / hero wordmark ───────────────── */
+@font-face {
+  font-family: 'Mostaqbali';
+  src: url('fonts/Mostaqbali-Regular.woff2') format('woff2'),
+       url('fonts/Mostaqbali-Regular.woff') format('woff'),
+       url('fonts/Mostaqbali-Regular.otf') format('opentype'),
+       url('fonts/Mostaqbali-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mostaqbali';
+  src: url('fonts/Mostaqbali-Medium.woff2') format('woff2'),
+       url('fonts/Mostaqbali-Medium.woff') format('woff'),
+       url('fonts/Mostaqbali-Medium.otf') format('opentype'),
+       url('fonts/Mostaqbali-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mostaqbali';
+  src: url('fonts/Mostaqbali-Bold.woff2') format('woff2'),
+       url('fonts/Mostaqbali-Bold.woff') format('woff'),
+       url('fonts/Mostaqbali-Bold.otf') format('opentype'),
+       url('fonts/Mostaqbali-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mostaqbali';
+  src: url('fonts/Mostaqbali-Black.woff2') format('woff2'),
+       url('fonts/Mostaqbali-Black.woff') format('woff'),
+       url('fonts/Mostaqbali-Black.otf') format('opentype'),
+       url('fonts/Mostaqbali-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── GRAPHIK ARABIC — body / headings / UI ───────────────────────── */
+@font-face {
+  font-family: 'Graphik Arabic';
+  src: url('fonts/GraphikArabic-Regular.woff2') format('woff2'),
+       url('fonts/GraphikArabic-Regular.woff') format('woff'),
+       url('fonts/GraphikArabic-Regular.otf') format('opentype'),
+       url('fonts/GraphikArabic-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Graphik Arabic';
+  src: url('fonts/GraphikArabic-Medium.woff2') format('woff2'),
+       url('fonts/GraphikArabic-Medium.woff') format('woff'),
+       url('fonts/GraphikArabic-Medium.otf') format('opentype'),
+       url('fonts/GraphikArabic-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Graphik Arabic';
+  src: url('fonts/GraphikArabic-Semibold.woff2') format('woff2'),
+       url('fonts/GraphikArabic-Semibold.woff') format('woff'),
+       url('fonts/GraphikArabic-Semibold.otf') format('opentype'),
+       url('fonts/GraphikArabic-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Graphik Arabic';
+  src: url('fonts/GraphikArabic-Bold.woff2') format('woff2'),
+       url('fonts/GraphikArabic-Bold.woff') format('woff'),
+       url('fonts/GraphikArabic-Bold.otf') format('opentype'),
+       url('fonts/GraphikArabic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── MADANI ARABIC — alt accent (use sparingly) ──────────────────── */
+@font-face {
+  font-family: 'Madani Arabic';
+  src: url('fonts/MadaniArabic-Regular.woff2') format('woff2'),
+       url('fonts/MadaniArabic-Regular.woff') format('woff'),
+       url('fonts/MadaniArabic-Regular.otf') format('opentype'),
+       url('fonts/MadaniArabic-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Madani Arabic';
+  src: url('fonts/MadaniArabic-Medium.woff2') format('woff2'),
+       url('fonts/MadaniArabic-Medium.woff') format('woff'),
+       url('fonts/MadaniArabic-Medium.otf') format('opentype'),
+       url('fonts/MadaniArabic-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Madani Arabic';
+  src: url('fonts/MadaniArabic-Bold.woff2') format('woff2'),
+       url('fonts/MadaniArabic-Bold.woff') format('woff'),
+       url('fonts/MadaniArabic-Bold.otf') format('opentype'),
+       url('fonts/MadaniArabic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

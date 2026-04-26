@@ -1,0 +1,42 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local screenshots / test artifacts
+.playwright-mcp/
+test-results/
+*-screenshot.png
+m1-*.png
+m2*.png
+m3*.png
+m4-*.png
+m5-*.png
+m6*.png
+m7*.png
+se*-*.png
+nl-fix-*.png
+nl-sticky-*.png
+network-*.png
+founder-*.png
+manifesto-*.png
+
+# Dependencies / build outputs (defensive)
+node_modules/
+dist/
+build/
+.cache/
+
+# Env / secrets
+.env
+.env.local
+*.local
+
+# Misc
+*.log

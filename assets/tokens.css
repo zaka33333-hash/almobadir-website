@@ -1,0 +1,200 @@
+/* ════════════════════════════════════════════════════════════════
+   Almobadir — design tokens
+   v2.0 · 2026-04-26
+   Canonical color, type, space, motion. Extracted from the Canva
+   master template + IG eyedrops + reference-site audit.
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Surfaces ────────────────────────────────────── */
+  --void:        #0A0F1E;   /* primary dark bg — Canva master confirmed */
+  --void-2:      #0E1525;   /* card bg on dark */
+  --void-3:      #0A1628;   /* deeper dark — @almobadir_business variant */
+  --paper:       #F8F4EA;   /* light bg — engagement-slide cream from page 9 */
+  --paper-2:     #FDFBF4;   /* paper highlight */
+  --paper-3:     #F0E8D2;   /* paper warm */
+
+  /* ── Ink ─────────────────────────────────────────── */
+  --ink:         #FBF7EE;   /* near-cream white, primary text on dark */
+  --ink-2:       #F5EAD2;   /* warm cream, body text on dark — Canva confirmed */
+  --ink-soft:    rgba(245, 234, 210, 0.78);
+  --ink-mute:    rgba(245, 234, 210, 0.52);
+  --ink-quiet:   rgba(245, 234, 210, 0.32);
+  --on-paper:    #1A0F08;   /* primary text on paper */
+  --on-paper-2:  #4A3829;   /* secondary text on paper */
+  --on-paper-mute: rgba(26, 15, 8, 0.55);
+
+  /* ── Brand ───────────────────────────────────────── */
+  --crimson:        #E6213B;   /* primary brand red — Canva + IG confirmed */
+  --crimson-2:      #C41A30;   /* darker, hover */
+  --crimson-3:      #6E0F1F;   /* deepest, founder gradient */
+  --crimson-glow:   rgba(230, 33, 59, 0.24);
+  --crimson-glow-2: rgba(230, 33, 59, 0.55);
+
+  /* Sub-brand accents */
+  --verde:       #1FA37A;   /* @almobadir_mindset · self-development */
+  --azure:       #1E5AA8;   /* @almobadir_flousak · finance */
+  --teal:        #2AD4B8;   /* @almobadir_media · agency */
+  --gold:        #E8B855;   /* occasional gold highlight (slide 3 success) */
+
+  /* ── Hairlines ───────────────────────────────────── */
+  --hairline:        rgba(245, 234, 210, 0.08);
+  --hairline-strong: rgba(245, 234, 210, 0.18);
+  --hairline-paper:  rgba(26, 15, 8, 0.10);
+  --hairline-paper-strong: rgba(26, 15, 8, 0.22);
+
+  /* ── Typography stack — canonical brand fonts ────────────────────
+     Brand: Mostaqbali (titles/display), Graphik Arabic (body/headings),
+     Madani Arabic (sometimes — alt accent).
+     Fallbacks load from Google Fonts so the site renders even before
+     the licensed font files are placed in /assets/fonts/.
+     ─────────────────────────────────────────────────────────────── */
+  --font-ar-display: 'Mostaqbali', 'Almarai', 'Reem Kufi', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-ar-body:    'Graphik Arabic', 'Graphik', 'Tajawal', 'Almarai', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-ar-alt:     'Madani Arabic', 'Cairo', 'Almarai', 'Tajawal', system-ui, sans-serif;
+  --font-en:         'Graphik', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-mono:       'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  --font-serif:      'Instrument Serif', 'Times New Roman', Georgia, serif;
+
+  /* ── Type scale (fluid, mobile-first) ────────────── */
+  --t-hero:     clamp(64px, 11vw, 168px);  /* hero wordmark */
+  --t-display:  clamp(40px, 6.5vw, 96px);  /* page-leading */
+  --t-h1:       clamp(36px, 5vw, 72px);    /* section H1 */
+  --t-h2:       clamp(30px, 4.2vw, 60px);  /* section H2 */
+  --t-h3:       clamp(22px, 2.4vw, 32px);  /* card heads */
+  --t-stat:     clamp(40px, 5vw, 64px);    /* big stats */
+  --t-lead:     clamp(18px, 1.6vw, 24px);  /* lead para */
+  --t-body:     17px;
+  --t-small:    14.5px;
+  --t-caption:  12.5px;
+  --t-eyebrow:  11px;
+
+  /* ── Line heights ────────────────────────────────── */
+  --lh-hero:    0.86;
+  --lh-display: 0.95;
+  --lh-h1:      1.0;
+  --lh-h2:      1.04;
+  --lh-h3:      1.18;
+  --lh-lead:    1.45;
+  --lh-body:    1.65;
+  --lh-tight:   1.2;
+
+  /* ── Letter spacing ──────────────────────────────── */
+  --ls-hero:    -0.05em;
+  --ls-display: -0.038em;
+  --ls-h2:      -0.028em;
+  --ls-h3:      -0.018em;
+  --ls-lead:    -0.005em;
+  --ls-body:    0;
+  --ls-eyebrow: 0.22em;
+  --ls-mono:    0.04em;
+
+  /* ── Weights ─────────────────────────────────────── */
+  --w-light:     300;
+  --w-regular:   400;
+  --w-medium:    500;
+  --w-semibold:  600;
+  --w-bold:      700;
+  --w-heavy:     800;
+  --w-black:     900;
+
+  /* ── Spacing scale (4px base) ────────────────────── */
+  --s-1:   4px;
+  --s-2:   8px;
+  --s-3:   12px;
+  --s-4:   16px;
+  --s-5:   20px;
+  --s-6:   24px;
+  --s-7:   32px;
+  --s-8:   40px;
+  --s-9:   48px;
+  --s-10:  56px;
+  --s-12:  72px;
+  --s-14:  96px;
+  --s-16:  120px;
+  --s-20:  160px;
+  --s-24:  200px;
+
+  /* ── Container ───────────────────────────────────── */
+  --container:        1320px;
+  --container-tight:  980px;
+  --container-narrow: 720px;
+  --gutter:           clamp(20px, 3vw, 48px);
+
+  /* ── Radius ──────────────────────────────────────── */
+  --r-xs:    2px;
+  --r-sm:    4px;
+  --r-md:    8px;
+  --r-lg:    16px;
+  --r-xl:    20px;
+  --r-2xl:   28px;
+  --r-pill:  999px;
+
+  /* ── Elevation ───────────────────────────────────── */
+  --e-1: 0 1px 2px rgba(0, 0, 0, 0.20);
+  --e-2: 0 8px 24px -8px rgba(0, 0, 0, 0.40);
+  --e-3: 0 24px 48px -16px rgba(0, 0, 0, 0.50);
+  --e-4: 0 36px 80px -24px rgba(0, 0, 0, 0.65);
+  --e-glow-crimson: 0 12px 40px -8px rgba(230, 33, 59, 0.45);
+  --e-glow-verde:   0 12px 40px -8px rgba(31, 163, 122, 0.40);
+  --e-glow-azure:   0 12px 40px -8px rgba(30, 90, 168, 0.40);
+  --e-glow-teal:    0 12px 40px -8px rgba(42, 212, 184, 0.40);
+
+  /* ── Easing ──────────────────────────────────────── */
+  --ease-glide:   cubic-bezier(0.28, 0.11, 0.32, 1);   /* Apple's signature */
+  --ease-counter: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-snap:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+
+  /* ── Durations ───────────────────────────────────── */
+  --d-fast:  150ms;
+  --d-base:  320ms;
+  --d-slow:  700ms;
+  --d-glide: 1000ms;
+
+  /* ── Z-index ─────────────────────────────────────── */
+  --z-grain:   2;
+  --z-content: 5;
+  --z-header:  50;
+  --z-modal:   100;
+  --z-toast:   200;
+
+  /* ── Default surface tokens (dark) ──────────────── */
+  --bg:      var(--void);
+  --bg-2:    var(--void-2);
+  --fg:      var(--ink);
+  --fg-2:    var(--ink-2);
+  --fg-soft: var(--ink-soft);
+  --fg-mute: var(--ink-mute);
+  --line:    var(--hairline);
+  --line-strong: var(--hairline-strong);
+}
+
+/* Light-mode slab — for engagement / CTA / agency content */
+.slab-light {
+  --bg:      var(--paper);
+  --bg-2:    var(--paper-2);
+  --fg:      var(--on-paper);
+  --fg-2:    var(--on-paper);
+  --fg-soft: rgba(26, 15, 8, 0.78);
+  --fg-mute: var(--on-paper-mute);
+  --line:    var(--hairline-paper);
+  --line-strong: var(--hairline-paper-strong);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Dark slab override (for nesting back to dark inside light) */
+.slab-dark {
+  --bg:      var(--void);
+  --bg-2:    var(--void-2);
+  --fg:      var(--ink);
+  --fg-2:    var(--ink-2);
+  --fg-soft: var(--ink-soft);
+  --fg-mute: var(--ink-mute);
+  --line:    var(--hairline);
+  --line-strong: var(--hairline-strong);
+  background: var(--bg);
+  color: var(--fg);
+}

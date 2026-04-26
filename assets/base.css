@@ -1,0 +1,268 @@
+/* ════════════════════════════════════════════════════════════════
+   Almobadir — base styles
+   Reset, typography defaults, motion, layout helpers.
+   ════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background: var(--void);
+  color: var(--ink-2);
+  font-family: var(--font-ar-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: var(--w-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  font-feature-settings: "kern" 1, "liga" 1;
+  font-kerning: normal;
+}
+
+img, video, svg, picture { max-width: 100%; display: block; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; background: none; border: 0; color: inherit; }
+ul, ol { list-style: none; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--d-fast) var(--ease-out);
+}
+a:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--crimson); color: var(--ink); }
+::-moz-selection { background: var(--crimson); color: var(--ink); }
+
+/* ── Subtle film grain — matches the brand's photojournalism feel ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-grain);
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.92  0 0 0 0 0.82  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ── Reduced motion preferences ──────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── No-JS fallback for reveal animation ─────────── */
+.no-js .reveal { opacity: 1 !important; transform: none !important; }
+noscript + style + .reveal { opacity: 1; transform: none; }
+
+/* ── Reveal anim (triggered by IntersectionObserver in JS) ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity var(--d-slow) var(--ease-glide),
+    transform var(--d-slow) var(--ease-glide);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--d-slow) var(--ease-glide),
+    transform var(--d-slow) var(--ease-glide);
+}
+.reveal-stagger.in > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+.reveal-stagger.in > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
+.reveal-stagger.in > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
+.reveal-stagger.in > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+.reveal-stagger.in > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
+.reveal-stagger.in > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
+
+/* ── Layout containers ───────────────────────────── */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container--tight  { max-width: var(--container-tight); }
+.container--narrow { max-width: var(--container-narrow); }
+
+.section {
+  padding-block: var(--s-16);
+  position: relative;
+}
+.section--lg { padding-block: var(--s-20); }
+.section--sm { padding-block: var(--s-12); }
+@media (max-width: 768px) {
+  .section    { padding-block: var(--s-12); }
+  .section--lg { padding-block: var(--s-14); }
+  .section--sm { padding-block: var(--s-10); }
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ── Typography utility classes ──────────────────── */
+.tx-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  font-weight: var(--w-medium);
+  color: var(--crimson);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  direction: ltr;
+}
+.tx-eyebrow b { color: inherit; font-weight: var(--w-bold); }
+
+.tx-hero {
+  font-family: var(--font-ar-display);
+  font-size: var(--t-hero);
+  line-height: var(--lh-hero);
+  letter-spacing: var(--ls-hero);
+  font-weight: var(--w-black);
+  color: var(--crimson);
+}
+
+.tx-display {
+  font-family: var(--font-ar-display);
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  font-weight: var(--w-black);
+  color: var(--fg);
+}
+
+.tx-h1 {
+  font-family: var(--font-ar-display);
+  font-size: var(--t-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h2);
+  font-weight: var(--w-black);
+  color: var(--fg);
+}
+
+.tx-h2 {
+  font-family: var(--font-ar-display);
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+  font-weight: var(--w-heavy);
+  color: var(--fg);
+}
+.tx-h2 em { color: var(--crimson); font-style: normal; }
+
+.tx-h3 {
+  font-family: var(--font-ar-display);
+  font-size: var(--t-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  font-weight: var(--w-heavy);
+  color: var(--fg);
+}
+
+.tx-lead {
+  font-size: var(--t-lead);
+  line-height: var(--lh-lead);
+  letter-spacing: var(--ls-lead);
+  color: var(--fg-soft);
+  font-weight: var(--w-regular);
+  max-width: 64ch;
+}
+.tx-lead strong { color: var(--fg); font-weight: var(--w-bold); }
+
+.tx-body { font-size: var(--t-body); line-height: var(--lh-body); }
+.tx-small { font-size: var(--t-small); color: var(--fg-mute); }
+.tx-caption { font-size: var(--t-caption); color: var(--fg-mute); }
+.tx-mono {
+  font-family: var(--font-mono);
+  letter-spacing: var(--ls-mono);
+  direction: ltr;
+}
+
+/* Typesetting discipline — Apple/Kiwi-style heading wrap balance */
+h1, h2, h3, h4, .tx-hero, .tx-display, .tx-h1, .tx-h2, .tx-h3 {
+  text-wrap: balance;
+}
+p, .tx-lead, .tx-body { text-wrap: pretty; }
+
+/* Tabular numerals for stats */
+.num, .num * {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Section header pattern (s-num + s-eyebrow + s-head) */
+.s-num {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  font-weight: var(--w-medium);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  direction: ltr;
+}
+.s-num b { color: var(--crimson); font-weight: var(--w-bold); }
+
+.s-head {
+  max-width: 920px;
+  margin-bottom: var(--s-12);
+}
+.s-head .s-num { margin-bottom: var(--s-4); }
+.s-head h2 { margin-bottom: var(--s-5); }
+.s-head .tx-lead { margin-top: var(--s-4); }
+
+/* ── Visually hidden (a11y) ──────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ── Live pulse dot — used in eyebrows + KPI cards ── */
+.pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--crimson);
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(230, 33, 59, 0.7);
+  animation: pulse 2.4s var(--ease-counter) infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(230, 33, 59, 0.7); }
+  70%  { box-shadow: 0 0 0 14px rgba(230, 33, 59, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(230, 33, 59, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse { animation: none; }
+}

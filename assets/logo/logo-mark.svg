@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     role="img"
+     aria-label="Almobadir mark">
+  <title>المبادر · brand mark</title>
+  <desc>Compact brand mark — dark crimson square + heavy "م" glyph. Used as favicon and small-space icon.</desc>
+  <defs>
+    <style type="text/css"><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@800&display=swap');
+      .almobadir-mk {
+        font-family: 'Mostaqbali', 'Almarai', 'Tajawal', sans-serif;
+        font-weight: 900;
+        fill: #E6213B;
+      }
+    ]]></style>
+  </defs>
+  <rect width="64" height="64" fill="#0A0F1E" rx="14"/>
+  <text x="32" y="46"
+        class="almobadir-mk"
+        font-size="42"
+        text-anchor="middle">م</text>
+</svg>
