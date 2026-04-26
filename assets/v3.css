@@ -461,41 +461,56 @@
   .mtd3__frame .mtd3__num { font-size: clamp(180px, 22vw, 320px); }
   .mtd3-cover { max-width: clamp(260px, 28vw, 360px); }
 
-  /* === ART + NUMERAL: appear immediately with the active frame === */
-  .mtd3__frame.is-active .mtd3__art {
-    opacity: 1; transform: none;
-    transition: opacity .7s var(--ease-glide), transform .8s var(--ease-glide);
-    transition-delay: 0.05s;
-  }
-  .mtd3__frame.is-active .mtd3__num {
-    opacity: .6; transform: translateY(-50%) scale(1);
-    transition: opacity .9s var(--ease-glide), transform 1s var(--ease-glide);
-    transition-delay: 0.05s;
+  /* === SLIDE: icon block (art + numeral) starts at the right, slides to its
+        natural left position over sub 0 → 0.55. Then settles as text reveals. === */
+  .mtd3__frame.is-active {
+    --mtd3-slide: clamp(0, calc(var(--mtd3-sub, 0) / .55), 1);
+    --mtd3-shift: calc((1 - var(--mtd3-slide)) * -42vw); /* RTL: negative X moves rightward visually in flipped origins; translation done physically below */
   }
 
-  /* === TEXT REVEAL: driven by --mtd3-sub (0→1 within active frame's scroll segment) === */
+  /* In RTL the art is in column 2 (visually LEFT). To start it on the RIGHT,
+     translate by a positive X (physical rightward). As --mtd3-slide grows,
+     the offset shrinks back toward 0 (natural left position). Icon is fully
+     visible from the moment the frame activates — only its X-position changes
+     as the user scrolls. */
+  .mtd3__frame.is-active .mtd3__art {
+    opacity: 1;
+    transform: translateX(calc((1 - var(--mtd3-slide)) * 42vw)) scale(calc(1.02 - var(--mtd3-slide) * 0.02));
+    transition: opacity .5s var(--ease-glide), transform .14s linear;
+    transition-delay: 0s;
+    will-change: transform;
+  }
+  .mtd3__frame.is-active .mtd3__num {
+    opacity: .6;
+    transform: translateY(-50%) translateX(calc((1 - var(--mtd3-slide)) * 42vw));
+    transition: opacity .6s var(--ease-glide), transform .14s linear;
+    transition-delay: 0s;
+    will-change: transform;
+  }
+
+  /* === TEXT REVEAL: starts mid-slide, finishes after icon has settled === */
   .mtd3__frame.is-active .mtd3__kicker {
-    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .15) * 5.5), 1);
-    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .15) * 5.5), 1)) * 16px));
+    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .32) * 5), 1);
+    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .32) * 5), 1)) * 18px));
     transition: opacity .12s linear, transform .15s linear;
   }
   .mtd3__frame.is-active .mtd3__h {
-    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .26) * 5), 1);
-    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .26) * 5), 1)) * 22px));
+    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .42) * 4.5), 1);
+    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .42) * 4.5), 1)) * 26px));
     transition: opacity .12s linear, transform .15s linear;
   }
   .mtd3__frame.is-active .mtd3__body {
-    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .40) * 4.5), 1);
-    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .40) * 4.5), 1)) * 18px));
+    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .56) * 4), 1);
+    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .56) * 4), 1)) * 22px));
     transition: opacity .12s linear, transform .15s linear;
   }
   .mtd3__frame.is-active .mtd3__meta {
-    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .54) * 4), 1);
-    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .54) * 4), 1)) * 18px));
+    opacity: clamp(0, calc((var(--mtd3-sub, 0) - .70) * 4), 1);
+    transform: translateY(calc((1 - clamp(0, calc((var(--mtd3-sub, 0) - .70) * 4), 1)) * 22px));
     transition: opacity .12s linear, transform .15s linear;
   }
 
-  /* When frame is leaving (no longer .is-active), let the base fade-out transition take over */
+  /* When frame is leaving (no longer .is-active), let everything fade out gracefully */
   .mtd3__frame:not(.is-active) .mtd3__kicker,
   .mtd3__frame:not(.is-active) .mtd3__h,
   .mtd3__frame:not(.is-active) .mtd3__body,
