@@ -17,12 +17,12 @@
   /* ── Ink ─────────────────────────────────────────── */
   --ink:         #FBF7EE;   /* near-cream white, primary text on dark */
   --ink-2:       #F5EAD2;   /* warm cream, body text on dark — Canva confirmed */
-  --ink-soft:    rgba(245, 234, 210, 0.78);
-  --ink-mute:    rgba(245, 234, 210, 0.52);
-  --ink-quiet:   rgba(245, 234, 210, 0.32);
+  --ink-soft:    rgba(245, 234, 210, 0.82);   /* AA — captions on dark (audit: was .78 → 7.2:1) */
+  --ink-mute:    rgba(245, 234, 210, 0.62);   /* AA — micro labels on dark (audit: was .52 → 4.6:1) */
+  --ink-quiet:   rgba(245, 234, 210, 0.50);   /* min AA at 14pt+ (audit: was .32 = 2.57:1 FAIL) */
   --on-paper:    #1A0F08;   /* primary text on paper */
   --on-paper-2:  #4A3829;   /* secondary text on paper */
-  --on-paper-mute: rgba(26, 15, 8, 0.55);
+  --on-paper-mute: rgba(26, 15, 8, 0.70);     /* AA — captions on cream (audit: was .55 = 4.06:1 FAIL) */
 
   /* ── Brand ───────────────────────────────────────── */
   --crimson:        #E6213B;   /* primary brand red — Canva + IG confirmed */
@@ -38,10 +38,10 @@
   --gold:        #E8B855;   /* occasional gold highlight (slide 3 success) */
 
   /* ── Hairlines ───────────────────────────────────── */
-  --hairline:        rgba(245, 234, 210, 0.08);
-  --hairline-strong: rgba(245, 234, 210, 0.18);
-  --hairline-paper:  rgba(26, 15, 8, 0.10);
-  --hairline-paper-strong: rgba(26, 15, 8, 0.22);
+  --hairline:        rgba(245, 234, 210, 0.14);   /* visual rules (decorative, no a11y bar) */
+  --hairline-strong: rgba(245, 234, 210, 0.32);   /* form/card borders (3:1 non-text contrast — was .18 = 1.58:1 FAIL) */
+  --hairline-paper:  rgba(26, 15, 8, 0.16);
+  --hairline-paper-strong: rgba(26, 15, 8, 0.38);
 
   /* ── Typography stack — canonical brand fonts ────────────────────
      Brand: Mostaqbali (titles/display), Graphik Arabic (body/headings),

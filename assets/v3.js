@@ -181,7 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const fill = root.querySelector('.mtd3__progress-fill');
     const current = root.querySelector('.mtd3__progress-current');
     const arabicNumeral = n => String(n).padStart(2, '0').replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
-    const colors = ['#E6213B', '#3CC58B', '#E8B855', '#5AA8FF', '#1FB6A6'];
+    // Read frame palette from CSS via each frame's --mtd3-c custom property
+    // (set per-frame by the [data-color="..."] selectors in v3.css). Avoids
+    // hardcoding colors twice — the audit flagged this duplication as P1.
+    const cssVar = (el, name) => getComputedStyle(el).getPropertyValue(name).trim();
+    const colors = frames.map(f => cssVar(f, '--mtd3-c') || '#E6213B');
     let lastIdx = -1;
 
     const setActive = (idx) => {
