@@ -271,7 +271,7 @@
   padding: 14px 24px;
   font-size: 15px;
   outline: none;
-  text-align: right;
+  text-align: end;
 }
 .hero-form input::placeholder { color: var(--ink-mute); }
 .hero-form button {
@@ -477,7 +477,7 @@
   display: block;
   margin-bottom: var(--s-5);
   direction: ltr;
-  text-align: right;
+  text-align: end;
 }
 .channel-name {
   font-family: var(--font-ar-display);
@@ -680,7 +680,7 @@
   color: var(--ink-mute);
   letter-spacing: 0.04em;
   direction: ltr;
-  text-align: right;
+  text-align: end;
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -754,7 +754,7 @@
   padding: 18px 22px;
   font-size: 16px;
   outline: none;
-  text-align: right;
+  text-align: end;
   border-radius: var(--r-md);
   transition: border-color var(--d-base) var(--ease-out);
 }
@@ -924,7 +924,7 @@
   color: var(--ink-mute);
   margin: 0 0 var(--s-6);
   direction: ltr;
-  text-align: right;
+  text-align: end;
 }
 .footer-col ul li {
   margin-bottom: var(--s-3);
