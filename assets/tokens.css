@@ -121,6 +121,10 @@
   --container-narrow: 720px;
   --gutter:           clamp(20px, 3vw, 48px);
 
+  /* ── Header height (sticky offsets) ──────────────── */
+  --hdr-h:            104px;
+  --hdr-h-scrolled:   72px;
+
   /* ── Radius ──────────────────────────────────────── */
   --r-xs:    2px;
   --r-sm:    4px;
