@@ -172,46 +172,98 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  /* ============== METHOD · mtd3 ============== */
+  /* ============== METHOD · mtd3 (scroll-pinned scrollytelling) ============== */
   (() => {
     const root = document.querySelector('.mtd3');
     if (!root) return;
-    const frames = root.querySelectorAll('.mtd3__frame');
+    const stage = root.querySelector('.mtd3__stage');
+    const frames = Array.from(root.querySelectorAll('.mtd3__frame'));
     const fill = root.querySelector('.mtd3__progress-fill');
     const current = root.querySelector('.mtd3__progress-current');
     const arabicNumeral = n => String(n).padStart(2, '0').replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
     const colors = ['#E6213B', '#3CC58B', '#E8B855', '#5AA8FF', '#1FB6A6'];
+    let lastIdx = -1;
+
     const setActive = (idx) => {
-      const i = Math.max(0, Math.min(4, idx));
+      const i = Math.max(0, Math.min(frames.length - 1, idx));
+      if (i === lastIdx) return;
+      lastIdx = i;
+      frames.forEach((f, j) => f.classList.toggle('is-active', j === i));
       if (current) current.textContent = arabicNumeral(i + 1);
-      if (fill) { fill.style.width = `${(i + 1) * 20}%`; fill.style.background = `linear-gradient(90deg, ${colors[i]}, ${colors[(i + 1) % 5]})`; }
-    };
-    if (reduceMotion) { frames.forEach(f => f.classList.add('in-view')); setActive(0); return; }
-
-    // Reveal each frame as it enters viewport (slide+fade with internal stagger)
-    const revealIO = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in-view');
-          revealIO.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.18, rootMargin: '0px 0px -10% 0px' });
-    frames.forEach(f => revealIO.observe(f));
-
-    // Track the active step (whichever is closest to viewport center) for the sticky HUD
-    const activeIO = new IntersectionObserver((entries) => {
-      // Pick the entry with the highest intersectionRatio that's intersecting
-      let best = null;
-      entries.forEach(e => { if (e.isIntersecting && (!best || e.intersectionRatio > best.intersectionRatio)) best = e; });
-      if (best) {
-        const idx = parseInt(best.target.dataset.step, 10) - 1;
-        setActive(idx);
+      if (fill) {
+        fill.style.width = `${(i + 1) * (100 / frames.length)}%`;
+        fill.style.background = `linear-gradient(90deg, ${colors[i]}, ${colors[(i + 1) % frames.length]})`;
       }
-    }, { threshold: [0.25, 0.5, 0.75], rootMargin: '-20% 0px -40% 0px' });
-    frames.forEach(f => activeIO.observe(f));
+    };
 
-    setActive(0);
+    if (reduceMotion) {
+      frames.forEach(f => f.classList.add('is-active'));
+      setActive(0);
+      return;
+    }
+
+    // Two modes: desktop (scroll-pinned) and mobile (stacked vertical)
+    const mqlMobile = matchMedia('(max-width: 900px)');
+    let scrollHandler = null, activeIO = null;
+
+    const teardown = () => {
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+        window.removeEventListener('resize', scrollHandler);
+        scrollHandler = null;
+      }
+      if (activeIO) { activeIO.disconnect(); activeIO = null; }
+    };
+
+    // Desktop: stage is 5 × 100vh. Active frame derives from scroll progress.
+    const setupDesktop = () => {
+      let raf = null;
+      const update = () => {
+        raf = null;
+        const rect = stage.getBoundingClientRect();
+        const stageH = stage.offsetHeight;
+        const vh = window.innerHeight;
+        const scrolled = -rect.top;
+        const total = stageH - vh;
+        if (total <= 0) { setActive(0); return; }
+        const progress = Math.max(0, Math.min(1, scrolled / total));
+        const idx = Math.min(frames.length - 1, Math.floor(progress * frames.length));
+        setActive(idx);
+      };
+      scrollHandler = () => {
+        if (raf !== null) return;
+        raf = requestAnimationFrame(update);
+      };
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+      window.addEventListener('resize', scrollHandler);
+      update();
+    };
+
+    // Mobile: frames are stacked block-flow. Whichever is most visible is "active".
+    const setupMobile = () => {
+      activeIO = new IntersectionObserver((entries) => {
+        let best = null;
+        entries.forEach(e => {
+          if (e.isIntersecting && (!best || e.intersectionRatio > best.intersectionRatio)) best = e;
+        });
+        if (best) {
+          const idx = parseInt(best.target.dataset.step, 10) - 1;
+          setActive(idx);
+        }
+      }, { threshold: [0.3, 0.5, 0.7], rootMargin: '-20% 0px -30% 0px' });
+      frames.forEach(f => activeIO.observe(f));
+    };
+
+    const init = () => {
+      teardown();
+      setActive(0);
+      if (mqlMobile.matches) setupMobile();
+      else setupDesktop();
+    };
+
+    init();
+    if (mqlMobile.addEventListener) mqlMobile.addEventListener('change', init);
+    else if (mqlMobile.addListener) mqlMobile.addListener(init);
   })();
 
   /* ============== CONTENT · cnt3 ============== */
