@@ -1450,6 +1450,24 @@
     );
   }
 
+  // ─── Content section · scroll-driven card "deal" entrance ──────────────
+  // BLUEPRINT Top-10 #8. Each .cnt3-card animates in from a slightly
+  // receded state as its top edge crosses the viewport. Driven by scroll
+  // position per-card so the cascade flows with the user's scroll
+  // velocity instead of firing on a fixed delay. Stripe Press / Aramco
+  // Qafilah-grade "magazine page reveal" feel.
+  if (!prm) {
+    document.querySelectorAll('.cnt3-card').forEach((card) => {
+      scroll(
+        animate(card,
+          { transform: ['scale(0.95) translateY(38px)', 'scale(1) translateY(0)'], opacity: [0.5, 1], filter: ['blur(2px)', 'blur(0px)'] },
+          { ease: [0.16, 1, 0.3, 1] }
+        ),
+        { target: card, offset: ['start end', 'start 0.55'] }
+      );
+    });
+  }
+
   // 1. Entrance spring (skipped for reduced-motion users; CSS already shows the wordmark).
   if (wordmark && svg && !prm) {
     inView(wordmark, () => {
