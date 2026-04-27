@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=9">
+<link rel="stylesheet" href="assets/v3.css?v=10">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -1425,6 +1425,23 @@
   const romanized  = wordmark?.querySelector('.hero3__wordmark-romanized');
   const glurBlur   = wordmark?.querySelector('feGaussianBlur');
   const prm        = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ─── Newsletter form ↔ preview card link ───────────────────────────────
+  // When the email input gains focus or the user types, the preview card
+  // reacts: lifts + glows on focus, brief tilt-pulse on each keystroke.
+  // Reads as the brand "seeing" the user — a small reciprocity beat.
+  const nlInput = document.querySelector('.nl3-input');
+  const nlPreview = document.querySelector('.nl3-preview');
+  if (nlInput && nlPreview && !prm) {
+    nlInput.addEventListener('focus', () => nlPreview.classList.add('is-engaged'));
+    nlInput.addEventListener('blur',  () => { if (!nlInput.value) nlPreview.classList.remove('is-engaged'); });
+    let typingT = 0;
+    nlInput.addEventListener('input', () => {
+      nlPreview.classList.add('is-typing');
+      clearTimeout(typingT);
+      typingT = setTimeout(() => nlPreview.classList.remove('is-typing'), 480);
+    });
+  }
 
   // ─── Page scroll progress bar ──────────────────────────────────────────
   // Thin crimson bar at the top of the viewport, fills 0 → 1 across the

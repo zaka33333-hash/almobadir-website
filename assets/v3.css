@@ -749,7 +749,10 @@ main:focus { outline: none; }
 @keyframes nl3-pulse-green { 0%{box-shadow:0 0 0 0 rgba(52,210,122,0.55)} 70%{box-shadow:0 0 0 10px rgba(52,210,122,0)} 100%{box-shadow:0 0 0 0 rgba(52,210,122,0)} }
 .nl3-live-text { color: var(--ink-mute); }
 .nl3-live-when { color: var(--ink); font-variant-numeric: tabular-nums; }
-.nl3-preview { position: relative; perspective: 1600px; perspective-origin: 50% 30%; }
+.nl3-preview { position: relative; perspective: 1600px; perspective-origin: 50% 30%; transition: transform 0.5s var(--ease-glide), filter 0.5s ease; }
+.nl3-preview.is-engaged { transform: translateY(-4px) scale(1.018); filter: drop-shadow(0 28px 56px color-mix(in srgb, var(--crimson) 32%, transparent)); }
+.nl3-preview.is-typing .nl3-frame { animation: nl3-typing-pulse 0.4s var(--ease-snap); }
+@keyframes nl3-typing-pulse { 0%, 100% { transform: rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)); } 50% { transform: rotateX(calc(var(--ry, 0deg) + 1deg)) rotateY(var(--rx, 0deg)) scale(1.008); } }
 @media (min-width: 961px) { .nl3-preview { position: sticky; top: 96px; align-self: start; } }
 .nl3-frame { position: relative; transform-style: preserve-3d; transition: transform 600ms var(--ease-glide); will-change: transform; }
 .nl3-frame-shadow { position: absolute; inset: 16px -16px -22px 16px; background: radial-gradient(closest-side, rgba(0,0,0,0.55), transparent 75%); filter: blur(36px); z-index: -2; border-radius: var(--r-2xl); }
