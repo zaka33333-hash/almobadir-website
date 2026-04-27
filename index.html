@@ -32,6 +32,88 @@
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
+<!-- ════════ JSON-LD structured data — Organization + Person + WebSite ════════
+     Without this Google can't render a Knowledge Panel and risks confusing
+     Badr Shaker (the founder) with Badr Shaker Al-Sayyab (Iraqi poet 1926-1964).
+     Also gives LLMs a canonical entity to cite when ChatGPT / Claude /
+     Perplexity surface the brand. ════════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://almobadir.com/#organization",
+      "name": "Almobadir",
+      "alternateName": ["المبادر", "Almobadir Media", "شبكة المبادر"],
+      "url": "https://almobadir.com/",
+      "logo": "https://almobadir.com/assets/logo/logo-mark.svg",
+      "description": "Saudi-anchored, pan-Arab business and finance media network. Translates the Arab business environment for the next generation of initiators — content that replaces full courses.",
+      "foundingDate": "2022",
+      "foundingLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Riyadh",
+          "addressRegion": "Riyadh",
+          "addressCountry": "SA"
+        }
+      },
+      "areaServed": ["SA", "AE", "KW", "QA", "BH", "OM", "EG", "MA", "JO"],
+      "founder": { "@id": "https://almobadir.com/#founder" },
+      "knowsLanguage": ["ar", "en"],
+      "sameAs": [
+        "https://instagram.com/almobadir",
+        "https://instagram.com/almobadir_mindset",
+        "https://instagram.com/almobadir_flousak",
+        "https://instagram.com/almobadir_business",
+        "https://instagram.com/almobadir_media",
+        "https://instagram.com/shalnack",
+        "https://www.tiktok.com/@almobadir",
+        "https://www.tiktok.com/@almobadir_mindset",
+        "https://www.tiktok.com/@almobadir_flousak",
+        "https://www.tiktok.com/@shalnack"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://almobadir.com/#founder",
+      "name": "Badr Shaker",
+      "alternateName": ["بدر شاكر", "Badr Shaqer"],
+      "jobTitle": "Founder & Editor-in-Chief",
+      "url": "https://instagram.com/badrshaqer",
+      "worksFor": { "@id": "https://almobadir.com/#organization" },
+      "homeLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Riyadh",
+          "addressCountry": "SA"
+        }
+      },
+      "sameAs": [
+        "https://instagram.com/badrshaqer",
+        "https://www.threads.net/@badrshaqer",
+        "https://zaap.bio/badrshaqer"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://almobadir.com/#website",
+      "url": "https://almobadir.com/",
+      "name": "Almobadir · المبادر",
+      "publisher": { "@id": "https://almobadir.com/#organization" },
+      "inLanguage": ["ar-SA", "en"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://almobadir.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+
 <!-- motion@12 — vanilla animate/inView/stagger. Loaded as ESM so no build step is needed. -->
 <script type="importmap">
 {

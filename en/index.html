@@ -45,7 +45,63 @@
   /* Wordmark Arabic stays Arabic-typed via inline SVG — no override needed */
 </style>
 
-<script>document.documentElement.classList.remove('no-js');</script>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+
+<!-- ════════ JSON-LD structured data — Organization + Person + WebSite ════════
+     Mirrors the schema served on the AR root with @inLanguage adjusted.
+     Same @id values so Google merges both pages into one entity record. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://almobadir.com/#organization",
+      "name": "Almobadir",
+      "alternateName": ["المبادر", "Almobadir Media"],
+      "url": "https://almobadir.com/",
+      "logo": "https://almobadir.com/assets/logo/logo-mark.svg",
+      "description": "Saudi-anchored, pan-Arab business and finance media network. Translates the Arab business environment for the next generation of initiators.",
+      "foundingDate": "2022",
+      "foundingLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Riyadh", "addressRegion": "Riyadh", "addressCountry": "SA" } },
+      "areaServed": ["SA", "AE", "KW", "QA", "BH", "OM", "EG", "MA", "JO"],
+      "founder": { "@id": "https://almobadir.com/#founder" },
+      "knowsLanguage": ["ar", "en"],
+      "sameAs": [
+        "https://instagram.com/almobadir",
+        "https://instagram.com/almobadir_mindset",
+        "https://instagram.com/almobadir_flousak",
+        "https://instagram.com/almobadir_business",
+        "https://instagram.com/almobadir_media",
+        "https://instagram.com/shalnack",
+        "https://www.tiktok.com/@almobadir",
+        "https://www.tiktok.com/@almobadir_mindset",
+        "https://www.tiktok.com/@almobadir_flousak",
+        "https://www.tiktok.com/@shalnack"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://almobadir.com/#founder",
+      "name": "Badr Shaker",
+      "alternateName": ["بدر شاكر", "Badr Shaqer"],
+      "jobTitle": "Founder & Editor-in-Chief",
+      "url": "https://instagram.com/badrshaqer",
+      "worksFor": { "@id": "https://almobadir.com/#organization" },
+      "homeLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Riyadh", "addressCountry": "SA" } },
+      "sameAs": ["https://instagram.com/badrshaqer", "https://zaap.bio/badrshaqer"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://almobadir.com/en/#website",
+      "url": "https://almobadir.com/en/",
+      "name": "Almobadir",
+      "publisher": { "@id": "https://almobadir.com/#organization" },
+      "inLanguage": ["en", "ar-SA"]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

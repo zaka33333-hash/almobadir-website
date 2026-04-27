@@ -1,0 +1,42 @@
+# Almobadir — robots.txt
+# Default: allow all bots full access. The site is editorial / brand
+# content; nothing under it is sensitive.
+
+User-agent: *
+Allow: /
+
+# LLM crawlers — explicitly allowed so the brand surfaces in AI search
+# (ChatGPT, Claude, Perplexity, Gemini) which are increasingly
+# significant discovery channels for Saudi B2B audiences.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Only block legacy reverse-spam paths that don't exist on this build
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+
+# Sitemaps (both production and current GitHub Pages build)
+Sitemap: https://almobadir.com/sitemap.xml
+Sitemap: https://zaka33333-hash.github.io/almobadir-website/sitemap.xml
