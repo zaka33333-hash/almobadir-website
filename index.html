@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=5">
+<link rel="stylesheet" href="assets/v3.css?v=6">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -1295,6 +1295,28 @@
   <div class="ftr3-bg" aria-hidden="true"></div>
 </footer>
 
+<!-- ════════ ⌘K COMMAND PALETTE — BLUEPRINT Top-10 #2 ════════
+     The header chip already promised "⌘ K". This is the implementation.
+     Built once at body end; populated from a static index, opened via
+     ⌘K / Ctrl+K, focusable + arrow-key navigable + Esc-closable. -->
+<div class="cmdk" id="cmdk" hidden aria-hidden="true">
+  <div class="cmdk__backdrop" data-cmdk-close></div>
+  <div class="cmdk__panel" role="dialog" aria-modal="true" aria-label="لوحة الأوامر">
+    <div class="cmdk__head">
+      <svg class="cmdk__icon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.2 12.2 L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="cmdk__input" type="text" placeholder="ابحث · انتقل · اكتشف…" autocomplete="off" spellcheck="false" aria-label="بحث" />
+      <kbd class="cmdk__esc">ESC</kbd>
+    </div>
+    <ul class="cmdk__list" role="listbox" aria-label="نتائج البحث"></ul>
+    <footer class="cmdk__foot" aria-hidden="true">
+      <span><kbd>↑</kbd><kbd>↓</kbd> تنقّل</span>
+      <span><kbd>↩</kbd> اختر</span>
+      <span><kbd>ESC</kbd> أغلق</span>
+      <span class="cmdk__brand">المبادر · COMMAND</span>
+    </footer>
+  </div>
+</div>
+
 <script>
   // Lang-toggle wiring — runs before v3.js binds its (no-op) handler.
   // Click EN on the AR page → /en/. Click AR on the AR page → no-op (already here).
@@ -1560,6 +1582,166 @@
     // focusout to body / non-card → reset
     nw3aGrid.addEventListener('focusout', (e) => {
       if (!nw3aGrid.contains(e.relatedTarget)) defocus(-1);
+    });
+  }
+
+  // ─── ⌘K Command Palette — BLUEPRINT Top-10 #2 ──────────────────────────
+  // Index: every IG handle, every TikTok handle, every section anchor.
+  // Open via ⌘K / Ctrl+K, click on the header search chip, or click the
+  // header search input. Filter via fuzzy substring match. Arrow keys
+  // navigate, Enter follows, Esc closes.
+  const cmdk = document.getElementById('cmdk');
+  const cmdkInput = cmdk?.querySelector('.cmdk__input');
+  const cmdkList  = cmdk?.querySelector('.cmdk__list');
+
+  const PALETTE_INDEX = [
+    { group: 'الانتقال السريع', kind: 'NAV', items: [
+      { title: 'الشبكة',   sub: 'Network',   href: '#network',   color: 'var(--crimson)' },
+      { title: 'المنهج',   sub: 'Method',    href: '#method',    color: 'var(--gold)'    },
+      { title: 'المحتوى',  sub: 'Content',   href: '#content',   color: 'var(--azure)'   },
+      { title: 'النشرة',   sub: 'Newsletter',href: '#newsletter',color: 'var(--verde)'   },
+      { title: 'المؤسس',   sub: 'Founder',   href: '#founder',   color: 'var(--crimson)' },
+      { title: 'الوكالة',  sub: 'Agency',    href: '#agency',    color: 'var(--teal)'    },
+    ]},
+    { group: 'إنستغرام', kind: 'IG', items: [
+      { title: 'المبادر · مايندست',   sub: '@almobadir_mindset · 478K',  href: 'https://instagram.com/almobadir_mindset',  color: '#1FA37A' },
+      { title: 'المبادر',              sub: '@almobadir · 363K',          href: 'https://instagram.com/almobadir',           color: '#E6213B' },
+      { title: 'بدر شاكر',             sub: '@badrshaqer · 317K',         href: 'https://instagram.com/badrshaqer',          color: '#E6213B' },
+      { title: 'شلناك',                sub: '@shalnack · 672K',           href: 'https://instagram.com/shalnack',            color: '#E8B855' },
+      { title: 'فلوسك',                sub: '@almobadir_flousak · 202K',  href: 'https://instagram.com/almobadir_flousak',   color: '#1E5AA8' },
+      { title: 'المبادر بزنس',         sub: '@almobadir_business · 124K', href: 'https://instagram.com/almobadir_business',  color: '#E6213B' },
+      { title: 'المبادر ميديا',        sub: '@almobadir_media · 57.7K',   href: 'https://instagram.com/almobadir_media',     color: '#2AD4B8' },
+    ]},
+    { group: 'تيك توك', kind: 'TT', items: [
+      { title: 'المبادر · TikTok',          sub: '@almobadir · 267K',          href: 'https://www.tiktok.com/@almobadir',          color: '#E6213B' },
+      { title: 'مايندست · TikTok',          sub: '@almobadir_mindset · 150K',  href: 'https://www.tiktok.com/@almobadir_mindset',  color: '#1FA37A' },
+      { title: 'فلوسك · TikTok',            sub: '@almobadir_flousak · 450K',  href: 'https://www.tiktok.com/@almobadir_flousak',  color: '#1E5AA8' },
+      { title: 'شلناك · TikTok',            sub: '@shalnack · 248K',           href: 'https://www.tiktok.com/@shalnack',           color: '#E8B855' },
+    ]},
+    { group: 'اللغة', kind: 'LANG', items: [
+      { title: 'English version',           sub: 'switch to /en/',             href: '/en/',                                      color: 'var(--ink-soft)' },
+    ]},
+  ];
+
+  let cmdkActiveIdx = 0;
+  let cmdkVisible = [];
+
+  function cmdkNormalize (s) {
+    return (s || '').toLowerCase()
+      .replace(/[ؐ-ًؚ-ٟۖ-ۭ]/g, '') // strip Arabic diacritics
+      .replace(/[ـ]/g, '');                                     // strip kashida
+  }
+
+  function cmdkRender (query) {
+    if (!cmdkList) return;
+    cmdkList.innerHTML = '';
+    const q = cmdkNormalize(query);
+    const flat = [];
+    PALETTE_INDEX.forEach(group => {
+      const matches = group.items.filter(it => {
+        if (!q) return true;
+        return cmdkNormalize(it.title).includes(q) || cmdkNormalize(it.sub).includes(q);
+      });
+      if (!matches.length) return;
+      const head = document.createElement('li');
+      head.className = 'cmdk__group';
+      head.textContent = group.group;
+      head.setAttribute('role', 'presentation');
+      cmdkList.appendChild(head);
+      matches.forEach(it => {
+        const li = document.createElement('li');
+        li.className = 'cmdk__item';
+        li.setAttribute('role', 'option');
+        li.dataset.href = it.href;
+        li.style.setProperty('--cmdk-c', it.color);
+        li.innerHTML = `<span class="cmdk__dot" aria-hidden="true"></span>
+          <span class="cmdk__title">${it.title}<span class="cmdk__sub">${it.sub}</span></span>
+          <span class="cmdk__kind">${group.kind}</span>`;
+        cmdkList.appendChild(li);
+        flat.push(li);
+      });
+    });
+    cmdkVisible = flat;
+    cmdkActiveIdx = 0;
+    cmdkUpdateActive();
+  }
+
+  function cmdkUpdateActive () {
+    cmdkVisible.forEach((li, i) => li.classList.toggle('is-active', i === cmdkActiveIdx));
+    cmdkVisible[cmdkActiveIdx]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function cmdkOpen () {
+    if (!cmdk) return;
+    cmdk.hidden = false;
+    requestAnimationFrame(() => cmdk.setAttribute('aria-hidden', 'false'));
+    document.body.style.overflow = 'hidden';
+    cmdkRender('');
+    setTimeout(() => cmdkInput?.focus(), 50);
+  }
+
+  function cmdkClose () {
+    if (!cmdk) return;
+    cmdk.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTimeout(() => { cmdk.hidden = true; if (cmdkInput) cmdkInput.value = ''; }, 250);
+  }
+
+  function cmdkNavigate (href) {
+    if (!href) return;
+    cmdkClose();
+    if (href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) {
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+      }
+    } else if (href.startsWith('http') || href.startsWith('/')) {
+      // Internal lang switch routes through the morph; external opens new tab.
+      const isExternal = href.startsWith('http');
+      setTimeout(() => {
+        if (isExternal) window.open(href, '_blank', 'noopener');
+        else window.location.href = href;
+      }, 220);
+    }
+  }
+
+  if (cmdk && cmdkInput) {
+    // Keyboard: ⌘K / Ctrl+K to open. Capture phase to override v3.js.
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault(); e.stopImmediatePropagation();
+        cmdk.hidden ? cmdkOpen() : cmdkClose();
+      }
+    }, true);
+    // Close via Esc, navigate via arrows + enter
+    cmdkInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); cmdkClose(); return; }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdkActiveIdx = Math.min(cmdkVisible.length - 1, cmdkActiveIdx + 1);
+        cmdkUpdateActive();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdkActiveIdx = Math.max(0, cmdkActiveIdx - 1);
+        cmdkUpdateActive();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const href = cmdkVisible[cmdkActiveIdx]?.dataset.href;
+        cmdkNavigate(href);
+      }
+    });
+    cmdkInput.addEventListener('input', (e) => cmdkRender(e.target.value));
+    // Click on item navigates
+    cmdkList.addEventListener('click', (e) => {
+      const item = e.target.closest('.cmdk__item');
+      if (item) cmdkNavigate(item.dataset.href);
+    });
+    // Backdrop click closes
+    cmdk.querySelector('[data-cmdk-close]')?.addEventListener('click', cmdkClose);
+    // Header search chip + input also open the palette
+    document.querySelectorAll('.hdr3-search, .hdr3-search-input, .hdr3-kbd').forEach(el => {
+      el.addEventListener('click', (e) => { e.preventDefault(); cmdkOpen(); });
+      el.addEventListener('focus',  () => cmdkOpen(), true);
     });
   }
 
