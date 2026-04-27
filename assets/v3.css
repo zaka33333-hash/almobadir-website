@@ -402,6 +402,39 @@ main:focus { outline: none; }
 .nw3a-card { transform: translateY(0) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)); }
 .nw3a-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--r-xl); }
 
+/* ── Compact override — cards 3× smaller per founder request.
+   The cover had flex:1 (grew to fill row height). Hard-pin the cover
+   to a fixed height + flex:none so it never grows past the cap, and
+   pin the grid row to min-content so rows shrink to fit. */
+.nw3a-grid                                     { gap: 8px; grid-auto-rows: min-content; align-items: start; }
+.nw3a-card                                     { align-self: start; }
+.nw3a-cover                                    { flex: none; height: 110px; min-height: 0; aspect-ratio: auto; }
+.nw3a-card--feature .nw3a-cover                { height: 130px; min-height: 0; }
+.nw3a-card--rail .nw3a-cover                   { height: 120px; min-height: 0; }
+.nw3a-card--std .nw3a-cover                    { height: 110px; min-height: 0; }
+.nw3a-card--wide .nw3a-cover                   { flex: none; height: 100%; min-height: 0; }
+@media (min-width: 1100px) {
+  .nw3a-card--wide .nw3a-link                  { grid-template-rows: auto; }
+  .nw3a-card--wide .nw3a-cover                 { height: 100%; min-height: 0; }
+  .nw3a-card--wide .nw3a-body                  { padding: 12px 14px; }
+}
+.nw3a-body                                     { padding: 10px 12px; gap: 5px; }
+.nw3a-stripe                                   { height: 2px; }
+.nw3a-tag                                      { padding: 2px 6px; font-size: 9px; gap: 5px; }
+.nw3a-tag-en                                   { font-size: 8px; padding-inline-end: 5px; }
+.nw3a-flag, .nw3a-feature-flag                 { font-size: 7px; padding: 2px 5px; letter-spacing: 0.12em; }
+.nw3a-name                                     { font-size: 14px; }
+.nw3a-card--feature .nw3a-name                 { font-size: 16px; }
+.nw3a-desc                                     { font-size: 11px; line-height: 1.4; }
+.nw3a-card--feature .nw3a-desc                 { font-size: 11.5px; }
+.nw3a-numbers                                  { padding-top: 5px; gap: 5px; }
+.nw3a-count-fig                                { font-size: 16px; }
+.nw3a-card--feature .nw3a-count-fig            { font-size: 18px; }
+.nw3a-count-label                              { font-size: 8px; padding-bottom: 2px; }
+.nw3a-foot                                     { padding-top: 5px; gap: 6px; margin-top: 0; }
+.nw3a-handle                                   { font-size: 9px; }
+.nw3a-cta                                      { font-size: 9px; gap: 4px; }
+
 
 /* ============== METHOD · mtd3 ============== */
 @property --mtd3-progress { syntax: '<number>'; initial-value: 0; inherits: true; }
