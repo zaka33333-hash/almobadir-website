@@ -305,8 +305,39 @@ main:focus { outline: none; }
 .manif3__quote { margin: 0; padding: 0; border: 0; }
 .manif3__lede { font-family: var(--font-ar-display); font-weight: 600; font-size: clamp(28px,4.2vw,68px); line-height: 1.25; letter-spacing: -.01em; color: var(--void); margin: 0 0 var(--s-7); text-wrap: balance; max-width: 26ch; filter: url(#ink-bleed); }
 .manif3__word--accent { filter: url(#ink-bleed-heavy); }
-.manif3__word { display: inline-block; margin-inline-start: .18em; opacity: .14; transform: translateY(.08em); transition: opacity .55s var(--ease-glide), transform .55s var(--ease-glide); }
-.manif3__word.is-lit { opacity: 1; transform: none; }
+/* Per-letter gradient sweep — see v3.js manifesto block.
+   --lit sweeps from 0 → 1 per word as the manifesto's character timeline
+   passes through this word's slice. The gradient mask paints the lit ink
+   on the right-of-the-cursor side (RTL reading start) and the dim ink
+   on the left, so the boundary moves letter by letter as scroll progresses.
+   The 1.5% feather between lit and dim hides the hard edge.
+   Arabic ligatures stay intact because the original character run isn't
+   split — only its fill colour changes. */
+.manif3__word {
+  display: inline-block;
+  margin-inline-start: .18em;
+  --lit: 0;
+  --manif-ink: var(--void);
+  background:
+    linear-gradient(
+      to left,
+      var(--manif-ink) 0%,
+      var(--manif-ink) calc(var(--lit) * 100%),
+      color-mix(in srgb, var(--manif-ink) 14%, transparent) calc(var(--lit) * 100% + 1.5%),
+      color-mix(in srgb, var(--manif-ink) 14%, transparent) 100%
+    );
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+  /* Tiny lift while dim — preserves the original micro-translateY so the
+     full ignition feels like the word "settles" into place at the end. */
+  transform: translateY(calc((1 - var(--lit)) * .06em));
+  transition: transform .35s var(--ease-glide);
+}
+.manif3__word--accent { --manif-ink: var(--crimson); }
+.manif3__word.is-lit { transform: none; }
+@property --lit { syntax: '<number>'; initial-value: 0; inherits: false; }
 .manif3__word--accent { font-style: italic; font-feature-settings: "ss01"; }
 .manif3__period { display: inline-block; color: var(--crimson); margin-inline-end: .04em; opacity: 0; transform: scale(.4); transition: opacity .5s var(--ease-glide) .2s, transform .5s var(--ease-glide) .2s; }
 .manif3.is-fully-lit .manif3__period { opacity: 1; transform: none; }
@@ -1317,6 +1348,60 @@ main:focus { outline: none; }
   .nw3a-card { opacity: 1; transform: none; }
   .ftr3-cdot { transform: scale(1); }
 }
+
+/* ════════ BLUEPRINT system layer — additive, non-breaking ════════ */
+
+/* Custom text selection — crimson on void, on-paper on cream */
+::selection { background: color-mix(in srgb, var(--crimson) 38%, transparent); color: var(--ink); }
+.slab-light ::selection { background: color-mix(in srgb, var(--crimson) 22%, transparent); color: var(--on-paper); }
+
+/* Global focus-visible discipline — BLUEPRINT motion ritual #2.
+   2px crimson ring + 4px offset. Applied broadly but not destructively
+   (existing focus styles still win where they're explicit). */
+:where(button, a, input, textarea, select, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 4px;
+  border-radius: var(--r-md);
+}
+
+/* Active state — BLUEPRINT motion ritual #2. Quick scale-down on press.
+   Matches Notion / Linear feel. */
+:where(button, a, [role="button"]):active { transform: scale(0.985); transition: transform 80ms var(--ease-out); }
+
+/* Anchor flash — when arriving at a section via #anchor (header chip,
+   ⌘K palette navigation, footer site-map), the target gets a brief
+   crimson hairline pulse so the user sees where they landed. */
+:target { animation: anchor-flash 1.4s var(--ease-out); }
+@keyframes anchor-flash {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--crimson) 0%, transparent); }
+  18%  { box-shadow: 0 -3px 0 0 color-mix(in srgb, var(--crimson) 65%, transparent), 0 0 28px -4px var(--crimson); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* The .eyebrow component — BLUEPRINT typography signature #1.
+   Bilingual eyebrow with Latin caps tracked at the canon 0.22em and
+   Arabic at 0 always. Available as a system class for new surfaces;
+   existing per-section eyebrows keep their bespoke styling. */
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: var(--t-eyebrow); line-height: 1; color: var(--ink-mute); }
+.eyebrow > [lang="en"], .eyebrow > .eyebrow__en { letter-spacing: 0.22em; text-transform: uppercase; }
+.eyebrow > [lang="ar"], .eyebrow > .eyebrow__ar { letter-spacing: 0; font-family: var(--font-ar-body); font-weight: 500; }
+.eyebrow > .eyebrow__sep { color: var(--ink-quiet); unicode-bidi: isolate; }
+.eyebrow > .eyebrow__num { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+
+/* Body ambient grain — barely-there fibre noise across the void.
+   Suppressed on cream paper sub-regions (matches BLUEPRINT material rule
+   "grain on void only" — paper handles its own texture). */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: var(--z-grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.92' numOctaves='2' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.92  0 0 0 0 0.82  0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+:has(.surface-paper.is-in-viewport) body::after,
+.slab-light body::after { opacity: 0; }
 
 /* ════════ Scroll progress bar ════════ */
 .page-progress { position: fixed; top: 0; inset-inline: 0; height: 2px; z-index: calc(var(--z-header) + 5); pointer-events: none; background: rgba(245, 234, 210, 0.04); }

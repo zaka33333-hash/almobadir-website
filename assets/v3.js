@@ -112,11 +112,30 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ============== MANIFESTO · manif3 ============== */
+  /* Per-letter ignition via gradient sweep. Each .manif3__word receives
+     a --lit CSS custom property (0 → 1) based on the manifesto's overall
+     scroll progress mapped to character-count, not word-count. The gradient
+     mask in v3.css uses --lit to sweep the lit colour across each word
+     letter by letter, preserving Arabic ligature shaping (no per-glyph
+     wrapping that would break shaping). */
   (() => {
     const root = document.querySelector('.manif3');
     if (!root) return;
     const words = [...root.querySelectorAll('.manif3__word')];
-    if (reduceMotion) { root.classList.add('is-in', 'is-fully-lit'); words.forEach(w => w.classList.add('is-lit')); return; }
+    // Pre-compute character ranges per word so each word knows its slice
+    // of the manifesto's total character timeline.
+    let totalChars = 0;
+    const ranges = words.map(w => {
+      const len = (w.textContent || '').length;
+      const start = totalChars;
+      totalChars += len;
+      return { start, len: Math.max(1, len) };
+    });
+    if (reduceMotion) {
+      root.classList.add('is-in', 'is-fully-lit');
+      words.forEach(w => { w.classList.add('is-lit'); w.style.setProperty('--lit', '1'); });
+      return;
+    }
     const io = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) root.classList.add('is-in'); }); }, { threshold: .15 });
     io.observe(root);
     const lede = root.querySelector('.manif3__lede');
@@ -128,9 +147,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const ref = r.top;
       let p = (start - ref) / (start - end);
       p = Math.max(0, Math.min(1, p));
-      const lit = Math.round(p * words.length);
-      words.forEach((w, i) => w.classList.toggle('is-lit', i < lit));
-      root.classList.toggle('is-fully-lit', lit >= words.length);
+      const charProgress = p * totalChars;
+      let fullyLit = true;
+      words.forEach((w, i) => {
+        const { start: wStart, len: wLen } = ranges[i];
+        const wordLit = Math.max(0, Math.min(1, (charProgress - wStart) / wLen));
+        w.style.setProperty('--lit', wordLit.toFixed(3));
+        // Keep .is-lit class semantically synced once a word is fully lit
+        // (so the existing accent / period rules that key off .is-lit still fire).
+        const isLitNow = wordLit >= 0.999;
+        w.classList.toggle('is-lit', isLitNow);
+        if (!isLitNow) fullyLit = false;
+      });
+      root.classList.toggle('is-fully-lit', fullyLit);
       ticking = false;
     };
     const onScroll = () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } };
