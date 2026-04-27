@@ -1492,6 +1492,39 @@
     unhold(panel);
     unhold(channels);
   }
+
+  // ─── Network grid · hover spotlight defocus ────────────────────────────
+  // When ANY .nw3a-card is hovered, the OTHER cards spring-dim and lightly
+  // inset. Hovered card holds at 1.0. The existing CSS entrance + per-card
+  // hover (cover zoom, stripe expand, CTA underline) stays untouched —
+  // this layer only adds the sibling-aware defocus, which CSS :has() can
+  // do in static form but not with spring physics across 7 elements.
+  // Skipped for reduced-motion users.
+  const nw3aGrid = document.querySelector('.nw3a-grid');
+  if (nw3aGrid && !prm) {
+    const cards = Array.from(nw3aGrid.querySelectorAll('.nw3a-card'));
+    let activeIdx = -1;
+    function defocus (idx) {
+      if (idx === activeIdx) return;
+      activeIdx = idx;
+      cards.forEach((c, i) => {
+        const isOther = idx !== -1 && i !== idx;
+        animate(c,
+          { opacity: isOther ? 0.45 : 1, scale: isOther ? 0.985 : 1, filter: isOther ? 'saturate(0.55) brightness(0.82)' : 'saturate(1) brightness(1)' },
+          { duration: 0.42, ease: [0.22, 1, 0.36, 1] }
+        );
+      });
+    }
+    cards.forEach((c, i) => {
+      c.addEventListener('pointerenter', () => defocus(i));
+      c.addEventListener('focusin',     () => defocus(i));
+    });
+    nw3aGrid.addEventListener('pointerleave', () => defocus(-1));
+    // focusout to body / non-card → reset
+    nw3aGrid.addEventListener('focusout', (e) => {
+      if (!nw3aGrid.contains(e.relatedTarget)) defocus(-1);
+    });
+  }
 </script>
 </body>
 </html>
