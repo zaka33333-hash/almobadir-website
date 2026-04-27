@@ -30,7 +30,48 @@
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/v3.css?v=2">
 
-<script>document.documentElement.classList.remove('no-js');</script>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+
+<!-- motion@12 — vanilla animate/inView/stagger. Loaded as ESM so no build step is needed. -->
+<script type="importmap">
+{
+  "imports": {
+    "motion": "https://esm.sh/motion@12.38.0?bundle"
+  }
+}
+</script>
+<link rel="modulepreload" href="https://esm.sh/motion@12.38.0?bundle" crossorigin>
+
+<!-- Initial state for the hero wordmark construct.
+     Class .construct-pending hides the SVG + romanized line until either:
+       (a) the motion script lands and removes the class as part of its entrance, or
+       (b) a 1500 ms safety timeout removes the class with a clean fade fallback.
+     Reduced-motion users skip the entrance entirely. -->
+<style id="hero-wordmark-construct-init">
+  html.js .hero3__wordmark.construct-pending > svg            { opacity: 0; transform: scale(0.94); filter: blur(8px); will-change: transform, opacity, filter; }
+  html.js .hero3__wordmark.construct-pending .hero3__wordmark-romanized { opacity: 0; letter-spacing: 0.5em; will-change: opacity, letter-spacing; }
+  html.js .hero3__wordmark.construct-fallback > svg,
+  html.js .hero3__wordmark.construct-fallback .hero3__wordmark-romanized { transition: opacity 0.42s ease, letter-spacing 0.42s ease, transform 0.42s ease, filter 0.42s ease; opacity: 1; transform: none; filter: none; letter-spacing: 0.36em; }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .hero3__wordmark.construct-pending > svg          { opacity: 1; transform: none; filter: none; }
+    html.js .hero3__wordmark.construct-pending .hero3__wordmark-romanized { opacity: 1; letter-spacing: 0.36em; }
+  }
+</style>
+<script>
+  /* Arm the construct-pending hide + a 1500 ms safety fallback so a CDN
+     hiccup never leaves a blank wordmark. Runs once on DOMContentLoaded. */
+  document.addEventListener('DOMContentLoaded', function () {
+    var w = document.querySelector('.hero3__wordmark');
+    if (!w) return;
+    w.classList.add('construct-pending');
+    setTimeout(function () {
+      if (w.classList.contains('construct-pending')) {
+        w.classList.remove('construct-pending');
+        w.classList.add('construct-fallback');
+      }
+    }, 1500);
+  });
+</script>
 </head>
 <body>
 
@@ -1230,5 +1271,65 @@
   })();
 </script>
 <script src="assets/v3.js" defer></script>
+
+<!-- ════════════════════════════════════════════════════════════════
+     Hero Wordmark Construct — motion@12 signature entrance
+     Spring overshoot on the SVG wordmark + stagger-reveal on the
+     romanized line + hover construct on the soft-glow filter.
+     Reduced-motion-safe (CSS skips the entrance state when set).
+     One-shot: never re-runs after the first viewport entry.
+     ════════════════════════════════════════════════════════════════ -->
+<script type="module">
+  import { animate, inView } from 'motion';
+
+  const wordmark   = document.querySelector('.hero3__wordmark');
+  const svg        = wordmark?.querySelector('svg');
+  const romanized  = wordmark?.querySelector('.hero3__wordmark-romanized');
+  const glurBlur   = wordmark?.querySelector('feGaussianBlur');
+  const prm        = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. Entrance spring (skipped for reduced-motion users; CSS already shows the wordmark).
+  if (wordmark && svg && !prm) {
+    inView(wordmark, () => {
+      // Cancel the safety fallback the moment motion takes the wheel.
+      wordmark.classList.remove('construct-pending');
+      animate(svg,
+        { transform: ['scale(0.94)', 'scale(1.035)', 'scale(1)'], opacity: [0, 1, 1], filter: ['blur(8px)', 'blur(0.4px)', 'blur(0px)'] },
+        { duration: 0.88, ease: [0.16, 1, 0.3, 1], offset: [0, 0.62, 1] }
+      );
+      if (romanized) {
+        animate(romanized,
+          { opacity: [0, 1], letterSpacing: ['0.5em', '0.36em'] },
+          { duration: 0.62, delay: 0.32, ease: [0.22, 1, 0.36, 1] }
+        );
+      }
+      return () => {};
+    }, { amount: 0.4, margin: '0px 0px -10% 0px' });
+  } else if (wordmark && prm) {
+    // Reduced-motion users: clear the pending hide immediately (the CSS
+    // already shows the wordmark, but the class needs to come off so the
+    // safety fallback doesn't add construct-fallback on top later).
+    wordmark.classList.remove('construct-pending');
+  }
+
+  // 2. Hover construct — pump the soft-glow filter's std-deviation, then settle back.
+  //    Skipped for reduced-motion users (spring + overshoot).
+  if (wordmark && glurBlur && !prm) {
+    const baseStd = parseFloat(glurBlur.getAttribute('stdDeviation') || '6');
+    let active = false;
+    const pump = () => {
+      if (active) return; active = true;
+      animate(baseStd, baseStd * 2.1, {
+        duration: 0.48, ease: [0.34, 1.56, 0.64, 1],
+        onUpdate: v => glurBlur.setAttribute('stdDeviation', v.toFixed(2))
+      }).then(() => animate(baseStd * 2.1, baseStd, {
+        duration: 0.7, ease: [0.16, 1, 0.3, 1],
+        onUpdate: v => glurBlur.setAttribute('stdDeviation', v.toFixed(2))
+      })).then(() => { active = false; });
+    };
+    wordmark.addEventListener('pointerenter', pump);
+    wordmark.addEventListener('focusin', pump);
+  }
+</script>
 </body>
 </html>
