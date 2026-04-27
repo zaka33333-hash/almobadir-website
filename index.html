@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=7">
+<link rel="stylesheet" href="assets/v3.css?v=8">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -1311,6 +1311,30 @@
   </section>
   <div class="ftr3-bg" aria-hidden="true"></div>
 </footer>
+
+<!-- ════════ Hidden SVG filter sprite — BLUEPRINT material signature ════════
+     Defined once globally so any CSS rule can reference via filter: url(#id).
+     Today: ink-bleed (manifesto title). Future: ink-bleed-heavy, paper-grain. -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <filter id="ink-bleed" x="-2%" y="-2%" width="104%" height="104%">
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 18 -8.5"/>
+    </filter>
+    <filter id="ink-bleed-heavy" x="-3%" y="-3%" width="106%" height="106%">
+      <feGaussianBlur stdDeviation="0.85" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 22 -10"/>
+    </filter>
+  </defs>
+</svg>
 
 <!-- ════════ ⌘K COMMAND PALETTE — BLUEPRINT Top-10 #2 ════════
      The header chip already promised "⌘ K". This is the implementation.

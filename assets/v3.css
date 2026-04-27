@@ -303,7 +303,8 @@ main:focus { outline: none; }
 .manif3__eyebrow--en { direction: ltr; }
 .manif3__figure { margin: 0; max-width: 1280px; }
 .manif3__quote { margin: 0; padding: 0; border: 0; }
-.manif3__lede { font-family: var(--font-ar-display); font-weight: 600; font-size: clamp(28px,4.2vw,68px); line-height: 1.25; letter-spacing: -.01em; color: var(--void); margin: 0 0 var(--s-7); text-wrap: balance; max-width: 26ch; }
+.manif3__lede { font-family: var(--font-ar-display); font-weight: 600; font-size: clamp(28px,4.2vw,68px); line-height: 1.25; letter-spacing: -.01em; color: var(--void); margin: 0 0 var(--s-7); text-wrap: balance; max-width: 26ch; filter: url(#ink-bleed); }
+.manif3__word--accent { filter: url(#ink-bleed-heavy); }
 .manif3__word { display: inline-block; margin-inline-start: .18em; opacity: .14; transform: translateY(.08em); transition: opacity .55s var(--ease-glide), transform .55s var(--ease-glide); }
 .manif3__word.is-lit { opacity: 1; transform: none; }
 .manif3__word--accent { font-style: italic; font-feature-settings: "ss01"; }
