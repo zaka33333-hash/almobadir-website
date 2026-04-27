@@ -1313,6 +1313,17 @@ main:focus { outline: none; }
   .ftr3-cdot { transform: scale(1); }
 }
 
+/* ════════ Scroll progress bar ════════ */
+.page-progress { position: fixed; top: 0; inset-inline: 0; height: 2px; z-index: calc(var(--z-header) + 5); pointer-events: none; background: rgba(245, 234, 210, 0.04); }
+.page-progress__fill {
+  display: block; height: 100%; transform-origin: left center; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson-2) 60%, color-mix(in srgb, var(--crimson) 70%, var(--gold) 30%) 100%);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--crimson) 50%, transparent);
+  will-change: transform;
+}
+[dir="rtl"] .page-progress__fill { transform-origin: right center; }
+@media (prefers-reduced-motion: reduce) { .page-progress__fill { transform: scaleX(0); } }
+
 /* ════════ ⌘K COMMAND PALETTE ════════ */
 .cmdk { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: start center; padding-block-start: clamp(80px, 18vh, 200px); pointer-events: none; opacity: 0; transition: opacity 0.22s ease; }
 .cmdk[aria-hidden="false"] { pointer-events: auto; opacity: 1; }

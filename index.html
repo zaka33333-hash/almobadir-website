@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=8">
+<link rel="stylesheet" href="assets/v3.css?v=9">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -129,6 +129,11 @@
 <body>
 
 <a class="skip-link" href="#main">تخطي إلى المحتوى</a>
+
+<!-- Scroll progress — thin crimson bar that fills as user scrolls the page.
+     Sits above the header (z-index above hdr3) so it's never occluded.
+     Driven by motion's scroll() with whole-page target. -->
+<div class="page-progress" aria-hidden="true"><span class="page-progress__fill"></span></div>
 
 <!-- ════════ HEADER ════════ -->
 <header class="hdr3" id="hdr3-root" dir="rtl" lang="ar">
@@ -1420,6 +1425,15 @@
   const romanized  = wordmark?.querySelector('.hero3__wordmark-romanized');
   const glurBlur   = wordmark?.querySelector('feGaussianBlur');
   const prm        = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ─── Page scroll progress bar ──────────────────────────────────────────
+  // Thin crimson bar at the top of the viewport, fills 0 → 1 across the
+  // whole page scroll range. Reading-progress feedback à la Substack /
+  // The Verge. Driven by motion's scroll() with no target = whole page.
+  const progressFill = document.querySelector('.page-progress__fill');
+  if (progressFill && !prm) {
+    scroll(animate(progressFill, { transform: ['scaleX(0)', 'scaleX(1)'] }, { ease: 'linear' }));
+  }
 
   // ─── Hero → Manifesto Z-dolly transition (Phase 3 cinematic) ───────────
   // As the hero scrolls out the top of the viewport, it dollies away with
