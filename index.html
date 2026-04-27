@@ -1413,13 +1413,42 @@
      One-shot: never re-runs after the first viewport entry.
      ════════════════════════════════════════════════════════════════ -->
 <script type="module">
-  import { animate, inView } from 'motion';
+  import { animate, inView, scroll } from 'motion';
 
   const wordmark   = document.querySelector('.hero3__wordmark');
   const svg        = wordmark?.querySelector('svg');
   const romanized  = wordmark?.querySelector('.hero3__wordmark-romanized');
   const glurBlur   = wordmark?.querySelector('feGaussianBlur');
   const prm        = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ─── Hero → Manifesto Z-dolly transition (Phase 3 cinematic) ───────────
+  // As the hero scrolls out the top of the viewport, it dollies away with
+  // a perspective-style scale-down + slight blur + opacity dim. The
+  // manifesto, sitting just below, simultaneously rises into focus from
+  // a slightly receded starting state. The whole boundary feels like a
+  // camera cut between two scenes rather than a hard scroll.
+  // Uses motion's scroll() API — drives keyframes from scroll position
+  // tied to the hero's exit-out-the-top.
+  const hero = document.querySelector('.hero3');
+  const manifesto = document.querySelector('.manif3');
+  if (hero && !prm) {
+    scroll(
+      animate(hero,
+        { transform: ['scale(1) translateY(0)', 'scale(0.94) translateY(-32px)'], opacity: [1, 0.45], filter: ['blur(0px)', 'blur(2.5px)'] },
+        { ease: [0.4, 0, 0.2, 1] }
+      ),
+      { target: hero, offset: ['end end', 'end start'] }
+    );
+  }
+  if (manifesto && !prm) {
+    scroll(
+      animate(manifesto,
+        { transform: ['scale(0.96) translateY(28px)', 'scale(1) translateY(0)'], opacity: [0.62, 1] },
+        { ease: [0.16, 1, 0.3, 1] }
+      ),
+      { target: manifesto, offset: ['start end', 'start 0.65'] }
+    );
+  }
 
   // 1. Entrance spring (skipped for reduced-motion users; CSS already shows the wordmark).
   if (wordmark && svg && !prm) {
@@ -1565,7 +1594,7 @@
   // Fire panel + chip rail from a SINGLE inView observer on the hero —
   // both are in the same viewport region; piggy-backing keeps the chips
   // from getting stranded when their own inView miscounts the threshold.
-  const hero = document.querySelector('.hero3');
+  // (Reuses `hero` declared above for the Z-dolly hookup.)
 
   if (hero && (panel || channels) && !prm) {
     inView(hero, () => {
