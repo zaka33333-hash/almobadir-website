@@ -1426,6 +1426,26 @@
   const glurBlur   = wordmark?.querySelector('feGaussianBlur');
   const prm        = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ─── Hero tagline · kashida-pull on accent words ───────────────────────
+  // BLUEPRINT Top-10 #3 (proper version is gated on the 29LT Idris Variable
+  // license + KSHD axis, ~€500). This is the spirit-only fake using
+  // letter-spacing — when the hero enters view, the accent words pulse
+  // wider then settle. Lands the "the word stretches into emphasis" beat
+  // without the licensed font.
+  const taglineAccents = document.querySelectorAll('.hero3__tagline-accent');
+  const tagline = document.querySelector('.hero3__tagline');
+  if (tagline && taglineAccents.length && !prm) {
+    inView(tagline, () => {
+      taglineAccents.forEach((el, i) => {
+        animate(el,
+          { letterSpacing: ['0em', '0.08em', '0em'] },
+          { duration: 1.5, delay: 0.55 + i * 0.22, ease: [0.34, 1.56, 0.64, 1] }
+        );
+      });
+      return () => {};
+    }, { amount: 0.5 });
+  }
+
   // ─── Newsletter form ↔ preview card link ───────────────────────────────
   // When the email input gains focus or the user types, the preview card
   // reacts: lifts + glows on focus, brief tilt-pulse on each keystroke.
