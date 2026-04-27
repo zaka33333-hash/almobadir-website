@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=2">
+<link rel="stylesheet" href="assets/v3.css?v=3">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -1523,6 +1523,47 @@
     // focusout to body / non-card → reset
     nw3aGrid.addEventListener('focusout', (e) => {
       if (!nw3aGrid.contains(e.relatedTarget)) defocus(-1);
+    });
+  }
+
+  // ─── Method · per-frame numeral spring entrance ────────────────────────
+  // The .mtd3__frame elements toggle .is-active as the user scrolls through
+  // the 5×100vh scroll-pinned stage (existing v3.js handles the toggle).
+  // This layer adds a spring-overshoot entrance on the .mtd3__num glyph
+  // every time a frame becomes active, plus a smooth dim-out when it
+  // deactivates. The whole stage gains a "the numeral wakes up when I'm
+  // here" beat — the move from BLUEPRINT Top-10 #9 (continuous numeral
+  // path-draw was the gold standard but requires SVG glyph paths; this
+  // delivers the spirit with text + spring physics, no glyph engineering).
+  const mtd3Frames = document.querySelectorAll('.mtd3__frame');
+  if (mtd3Frames.length && !prm) {
+    mtd3Frames.forEach((frame) => {
+      const num = frame.querySelector('.mtd3__num');
+      if (!num) return;
+      let lastActive = frame.classList.contains('is-active');
+      const obs = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+          if (m.attributeName !== 'class') continue;
+          const active = frame.classList.contains('is-active');
+          if (active === lastActive) return;
+          lastActive = active;
+          if (active) {
+            // Spring overshoot entrance — the numeral arrives.
+            animate(num,
+              { transform: ['scale(0.86)', 'scale(1.04)', 'scale(1)'], opacity: [0.35, 1, 1] },
+              { duration: 0.78, ease: [0.34, 1.56, 0.64, 1] }
+            );
+          } else {
+            // Smooth dim-out — the numeral steps aside for the next frame.
+            animate(num,
+              { transform: 'scale(0.92)', opacity: 0.35 },
+              { duration: 0.42, ease: [0.16, 1, 0.3, 1] }
+            );
+          }
+          break;
+        }
+      });
+      obs.observe(frame, { attributes: true, attributeFilter: ['class'] });
     });
   }
 </script>
