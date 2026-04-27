@@ -42,32 +42,65 @@
 </script>
 <link rel="modulepreload" href="https://esm.sh/motion@12.38.0?bundle" crossorigin>
 
-<!-- Initial state for the hero wordmark construct.
+<!-- Initial state for the hero wordmark construct + the KPI panel cascade.
      Class .construct-pending hides the SVG + romanized line until either:
        (a) the motion script lands and removes the class as part of its entrance, or
        (b) a 1500 ms safety timeout removes the class with a clean fade fallback.
-     Reduced-motion users skip the entrance entirely. -->
+     The KPI panel + chip rail get a separate hold class .panel-hold so motion
+     can drive the counter / sparkline / bar cascade without flashing the
+     final values first.
+     Reduced-motion users skip both entrances entirely. -->
 <style id="hero-wordmark-construct-init">
   html.js .hero3__wordmark.construct-pending > svg            { opacity: 0; transform: scale(0.94); filter: blur(8px); will-change: transform, opacity, filter; }
   html.js .hero3__wordmark.construct-pending .hero3__wordmark-romanized { opacity: 0; letter-spacing: 0.5em; will-change: opacity, letter-spacing; }
   html.js .hero3__wordmark.construct-fallback > svg,
   html.js .hero3__wordmark.construct-fallback .hero3__wordmark-romanized { transition: opacity 0.42s ease, letter-spacing 0.42s ease, transform 0.42s ease, filter 0.42s ease; opacity: 1; transform: none; filter: none; letter-spacing: 0.36em; }
+
+  /* KPI cascade hold + sparkline path-draw scaffolding. */
+  html.js .hero3__panel.panel-hold .hero3__num,
+  html.js .hero3__panel.panel-hold .hero3__chip-num,
+  html.js .hero3__channels.panel-hold .hero3__chip-num { color: transparent; transition: color 60ms; }
+  html.js .hero3__panel.panel-hold .hero3__kpi-spark svg path { stroke-dasharray: var(--p-len, 1); stroke-dashoffset: var(--p-len, 1); }
+  html.js .hero3__panel.panel-hold .hero3__kpi-spark--bars > span { transform: scaleY(0); transform-origin: bottom; will-change: transform; }
+  html.js .hero3__panel.panel-fallback .hero3__num,
+  html.js .hero3__panel.panel-fallback .hero3__chip-num,
+  html.js .hero3__channels.panel-fallback .hero3__chip-num { color: inherit; transition: color 0.4s ease; }
+  html.js .hero3__panel.panel-fallback .hero3__kpi-spark svg path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.6s ease; }
+  html.js .hero3__panel.panel-fallback .hero3__kpi-spark--bars > span { transform: scaleY(1); transition: transform 0.5s ease; }
+
   @media (prefers-reduced-motion: reduce) {
     html.js .hero3__wordmark.construct-pending > svg          { opacity: 1; transform: none; filter: none; }
     html.js .hero3__wordmark.construct-pending .hero3__wordmark-romanized { opacity: 1; letter-spacing: 0.36em; }
+    html.js .hero3__panel.panel-hold .hero3__num,
+    html.js .hero3__panel.panel-hold .hero3__chip-num,
+    html.js .hero3__channels.panel-hold .hero3__chip-num     { color: inherit; }
+    html.js .hero3__panel.panel-hold .hero3__kpi-spark svg path { stroke-dashoffset: 0; }
+    html.js .hero3__panel.panel-hold .hero3__kpi-spark--bars > span { transform: scaleY(1); }
   }
 </style>
 <script>
-  /* Arm the construct-pending hide + a 1500 ms safety fallback so a CDN
-     hiccup never leaves a blank wordmark. Runs once on DOMContentLoaded. */
+  /* Arm the construct-pending hide on the wordmark + the panel-hold hide on
+     the KPI panel and chip rail, plus a 1500 ms safety fallback so a CDN
+     hiccup never leaves blank surfaces. Runs once on DOMContentLoaded. */
   document.addEventListener('DOMContentLoaded', function () {
     var w = document.querySelector('.hero3__wordmark');
-    if (!w) return;
-    w.classList.add('construct-pending');
+    var p = document.querySelector('.hero3__panel');
+    var c = document.querySelector('.hero3__channels');
+    if (w) w.classList.add('construct-pending');
+    if (p) p.classList.add('panel-hold');
+    if (c) c.classList.add('panel-hold');
     setTimeout(function () {
-      if (w.classList.contains('construct-pending')) {
+      if (w && w.classList.contains('construct-pending')) {
         w.classList.remove('construct-pending');
         w.classList.add('construct-fallback');
+      }
+      if (p && p.classList.contains('panel-hold')) {
+        p.classList.remove('panel-hold');
+        p.classList.add('panel-fallback');
+      }
+      if (c && c.classList.contains('panel-hold')) {
+        c.classList.remove('panel-hold');
+        c.classList.add('panel-fallback');
       }
     }, 1500);
   });
@@ -1329,6 +1362,135 @@
     };
     wordmark.addEventListener('pointerenter', pump);
     wordmark.addEventListener('focusin', pump);
+  }
+
+  // ─── KPI counter roll + sparkline draw + bar cascade ───────────────────
+  // Top-10 #7 (Hero panel "the network is alive"): on panel-in-view,
+  // count up each .hero3__num and .hero3__chip-num from 0 to its target,
+  // stroke-draw the sparkline paths, and scale-up the bar chart bars.
+  // One-shot per session — never re-runs.
+
+  /** Parse "3.3", "5,000", "57.7K", "478K" etc. into { value, suffix, format } */
+  function parseTarget (text) {
+    text = (text || '').trim();
+    const m = text.match(/^([0-9.,]+)([A-Za-z+]*)$/);
+    if (!m) return null;
+    const numPart = m[1];
+    const suffix  = m[2] || '';
+    const hasComma = numPart.includes(',');
+    const cleaned = numPart.replace(/,/g, '');
+    const isFloat = cleaned.includes('.');
+    const value = parseFloat(cleaned);
+    if (isNaN(value)) return null;
+    return {
+      value, suffix,
+      format: v => {
+        let s;
+        if (isFloat)        s = v.toFixed(1);
+        else if (hasComma)  s = Math.round(v).toLocaleString('en-US');
+        else                s = String(Math.round(v));
+        return s + suffix;
+      }
+    };
+  }
+
+  /** Animate one number element from 0 to its parsed text target.
+   *  Uses requestAnimationFrame directly — motion@12's animate(from, to, opts)
+   *  tweens but only emits a single onUpdate, so it's not viable for counters. */
+  function rollCounter (el, opts) {
+    if (el.dataset.rolled) return;          // one-shot
+    const target = parseTarget(el.textContent);
+    if (!target) return;
+    el.dataset.rolled = '1';
+    el.dataset.rolledFrom = el.textContent;  // remember the original target text
+    el.textContent = target.format(0);
+    const dur = (opts.duration ?? 1.1) * 1000;
+    const dly = (opts.delay ?? 0) * 1000;
+    const startMark = performance.now();
+    let done = false;
+    const finish = () => { if (!done) { done = true; el.textContent = target.format(target.value); } };
+    function tick (now) {
+      if (done) return;
+      const t = (now - startMark - dly) / dur;
+      if (t < 0) { requestAnimationFrame(tick); return; }
+      const clamped = Math.min(1, Math.max(0, t));
+      const eased = 1 - Math.pow(1 - clamped, 4);  // easeOutQuart
+      el.textContent = target.format(target.value * eased);
+      if (clamped < 1) requestAnimationFrame(tick);
+      else finish();
+    }
+    requestAnimationFrame(tick);
+    // Safety net: setTimeout fires even when rAF is throttled (background tab,
+    // browser power-saving). Guarantees the final value is set regardless.
+    setTimeout(finish, dly + dur + 80);
+  }
+
+  /** Animate stroke-dashoffset on every <path> inside an element via motion's
+   *  element-based animate (which DOES fire per-frame for CSS properties). */
+  function drawPaths (root, opts) {
+    if (root.dataset.drawn) return;
+    root.dataset.drawn = '1';
+    root.querySelectorAll('svg path').forEach(p => {
+      const len = (p.getTotalLength && p.getTotalLength()) || 100;
+      p.style.strokeDasharray = String(len);
+      p.style.strokeDashoffset = String(len);
+      animate(p, { strokeDashoffset: 0 }, {
+        duration: opts.duration ?? 1.1,
+        delay: opts.delay ?? 0,
+        ease: [0.22, 1, 0.36, 1]
+      });
+    });
+  }
+
+  /** Stagger scaleY 0→1 across bar-chart children. */
+  function liftBars (root, opts) {
+    if (root.dataset.lifted) return;
+    root.dataset.lifted = '1';
+    const bars = Array.from(root.children);
+    bars.forEach((b, i) => {
+      b.style.transform = 'scaleY(0)';
+      animate(b, { transform: 'scaleY(1)' }, {
+        duration: 0.5,
+        delay: (opts.delay ?? 0) + i * 0.045,
+        ease: [0.34, 1.56, 0.64, 1]
+      });
+    });
+  }
+
+  function unhold (el) { el?.classList.remove('panel-hold'); }
+
+  const panel    = document.querySelector('.hero3__panel');
+  const channels = document.querySelector('.hero3__channels');
+
+  // Fire panel + chip rail from a SINGLE inView observer on the hero —
+  // both are in the same viewport region; piggy-backing keeps the chips
+  // from getting stranded when their own inView miscounts the threshold.
+  const hero = document.querySelector('.hero3');
+
+  if (hero && (panel || channels) && !prm) {
+    inView(hero, () => {
+      unhold(panel);
+      unhold(channels);
+      // Panel cascade — KPI counters + sparkline draws + bar lift
+      panel?.querySelectorAll('.hero3__kpi').forEach((kpi, i) => {
+        const numEl   = kpi.querySelector('.hero3__num');
+        const spark   = kpi.querySelector('.hero3__kpi-spark');
+        const bars    = kpi.querySelector('.hero3__kpi-spark--bars');
+        const stagger = i * 0.13;
+        if (numEl)            rollCounter(numEl, { delay: stagger, duration: 1.15 });
+        if (spark && !bars)   drawPaths(spark, { delay: stagger + 0.08, duration: 1.05 });
+        if (bars)             liftBars(bars, { delay: stagger + 0.06 });
+      });
+      // Chip rail cascade — start ~200ms after panel so the eye finishes
+      // the panel before the chip numbers compete for attention.
+      channels?.querySelectorAll('.hero3__chip-num').forEach((el, i) => {
+        rollCounter(el, { delay: 0.2 + i * 0.07, duration: 1.0 });
+      });
+      return () => {};
+    }, { amount: 0.1 });
+  } else if (prm) {
+    unhold(panel);
+    unhold(channels);
   }
 </script>
 </body>
