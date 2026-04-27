@@ -468,6 +468,8 @@ main:focus { outline: none; }
 .mtd3__rail-item { position: relative; color: var(--ink-mute); padding-block: 8px; transition: color .35s var(--ease-glide); }
 .mtd3__rail-item::before { content: ''; position: absolute; inset-block: 50%; inset-inline-start: -44px; width: 24px; height: 1px; background: currentColor; opacity: .4; }
 .mtd3__rail-item.is-active { color: var(--ink); }
+.mtd3__rail-item.is-hovered:not(.is-active) { color: var(--ink-soft); cursor: pointer; }
+.mtd3__rail-item.is-hovered:not(.is-active)::before { opacity: 0.7; width: 32px; transition: opacity 0.3s ease, width 0.3s ease; }
 .mtd3__rail-item.is-active::before { width: 48px; background: var(--crimson); opacity: 1; }
 .mtd3__track { position: relative; display: flex; flex-direction: column; width: 100%; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: var(--r-xl); overflow: hidden; }
 .mtd3__frame { position: relative; flex: 0 0 auto; min-height: 360px; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); align-items: center; padding: clamp(40px,5vw,72px) clamp(28px,4vw,56px); gap: clamp(24px,4vw,64px); background: var(--void); opacity: 0; transform: translateY(48px); transition: opacity 1s var(--ease-glide), transform 1s var(--ease-glide); }

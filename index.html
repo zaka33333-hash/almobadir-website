@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=10">
+<link rel="stylesheet" href="assets/v3.css?v=11">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -1500,6 +1500,78 @@
       { target: manifesto, offset: ['start end', 'start 0.65'] }
     );
   }
+
+  // ─── Section-level scroll-driven entrances (rhythm consistency) ───────
+  // The hero→manifesto Z-dolly already handles those two. Extending the
+  // same "rise-into-focus" beat to network, content, newsletter, founder,
+  // and footer so the entire scroll arc has a consistent publication-page
+  // rhythm. Each section: subtle scale + translateY + opacity keyframes
+  // driven by motion's scroll() with the section as its own target.
+  if (!prm) {
+    [
+      { sel: '.nw3a',          range: ['start end', 'start 0.7'],  scale: [0.97, 1], y: [22, 0], opacity: [0.65, 1] },
+      { sel: '.cnt3',          range: ['start end', 'start 0.7'],  scale: [0.97, 1], y: [22, 0], opacity: [0.7, 1] },
+      { sel: '.nl3-section',   range: ['start end', 'start 0.65'], scale: [0.97, 1], y: [26, 0], opacity: [0.65, 1] },
+      { sel: '.fnd3a',         range: ['start end', 'start 0.65'], scale: [0.97, 1], y: [26, 0], opacity: [0.65, 1] },
+    ].forEach(({ sel, range, scale: [s0, s1], y: [y0, y1], opacity }) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      scroll(
+        animate(el,
+          { transform: [`scale(${s0}) translateY(${y0}px)`, `scale(${s1}) translateY(${y1}px)`], opacity },
+          { ease: [0.16, 1, 0.3, 1] }
+        ),
+        { target: el, offset: range }
+      );
+    });
+    // Footer columns — stagger reveal driven by footer entry.
+    document.querySelectorAll('.ftr3-col').forEach((col) => {
+      scroll(
+        animate(col,
+          { transform: ['translateY(18px)', 'translateY(0)'], opacity: [0.55, 1] },
+          { ease: [0.22, 1, 0.36, 1] }
+        ),
+        { target: col, offset: ['start end', 'start 0.8'] }
+      );
+    });
+  }
+
+  // ─── Method rail · hover preview highlight ─────────────────────────────
+  // Hovering a rail item briefly emphasizes it (matches the spring-numeral
+  // beat that fires on actual scroll-active). Pure CSS class toggle, no
+  // scroll-state interference.
+  if (!prm) {
+    document.querySelectorAll('.mtd3__rail-item').forEach((item) => {
+      item.addEventListener('pointerenter', () => item.classList.add('is-hovered'));
+      item.addEventListener('pointerleave', () => item.classList.remove('is-hovered'));
+    });
+  }
+
+  // ─── Smooth anchor scroll with eased animation ─────────────────────────
+  // Replaces the browser's default jump-to-anchor with an eased rAF tween.
+  // Skipped for prefers-reduced-motion (immediate jump preserved).
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || href === '#' || href.length < 2) return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      if (prm) { target.scrollIntoView(); return; }
+      const startY = window.scrollY;
+      const targetY = target.getBoundingClientRect().top + window.scrollY - 80; // header offset
+      const distance = targetY - startY;
+      const duration = Math.min(900, Math.max(420, Math.abs(distance) / 2.4));
+      const startMark = performance.now();
+      const ease = (t) => 1 - Math.pow(1 - t, 4);
+      function smooth (now) {
+        const t = Math.min(1, (now - startMark) / duration);
+        window.scrollTo(0, startY + distance * ease(t));
+        if (t < 1) requestAnimationFrame(smooth);
+      }
+      requestAnimationFrame(smooth);
+    });
+  });
 
   // ─── Content section · scroll-driven card "deal" entrance ──────────────
   // BLUEPRINT Top-10 #8. Each .cnt3-card animates in from a slightly
