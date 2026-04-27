@@ -972,6 +972,45 @@ main:focus { outline: none; }
 .ftr3-mark { display: block; line-height: 0; max-width: 380px; container-type: inline-size; }
 .ftr3-mark__svg { width: 100%; height: auto; display: block; transition: transform .6s var(--ease-glide); }
 .ftr3-mark:hover .ftr3-mark__svg { transform: translateY(-2px); }
+/* BLUEPRINT Footer MOVE 1 — debossed wordmark on cream sub-region.
+   The brand mark sits in a paper card that inverts the surrounding
+   void; the SVG filter (above) layers a top-shadow + bottom-highlight
+   so the type reads as pressed INTO the cream rather than printed on it. */
+.ftr3-mark--press {
+  background:
+    radial-gradient(ellipse at 78% 32%, rgba(214, 168, 102, 0.06), transparent 62%),
+    radial-gradient(ellipse at 12% 78%, rgba(214, 168, 102, 0.04), transparent 62%),
+    linear-gradient(180deg, #F8F4EA 0%, #F0E8D2 100%);
+  border-radius: 14px;
+  padding: 14px 22px 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 -1px 0 rgba(26, 15, 8, 0.18) inset,
+    0 24px 64px -32px rgba(0, 0, 0, 0.5);
+  transition: transform 0.7s var(--ease-glide), box-shadow 0.6s ease;
+  transform-origin: center;
+}
+.ftr3-mark--press::before {
+  /* Paper fibre noise — barely there, just enough to feel like real stock. */
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.09  0 0 0 0 0.05  0 0 0 0.085 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.65;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.ftr3-mark--press .ftr3-mark__svg { position: relative; z-index: 1; }
+.ftr3-mark--press:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.22) inset,
+    0 -2px 0 rgba(26, 15, 8, 0.22) inset,
+    0 32px 80px -28px rgba(0, 0, 0, 0.55);
+}
+.ftr3-mark--press:hover .ftr3-mark__svg { transform: none; }
 .ftr3-tag { font-family: var(--font-ar-display); font-weight: 700; font-size: clamp(18px,1.4vw,22px); color: var(--ink); margin: 0; letter-spacing: -.01em; }
 .ftr3-desc { color: var(--ink-soft); font-size: 14px; line-height: 1.7; margin: 0; max-width: 38ch; }
 .ftr3-clock { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); margin: 8px 0 0; padding: 8px 14px; border: 1px solid var(--hairline); border-radius: 999px; align-self: flex-start; background: rgba(245,234,210,.02); }
