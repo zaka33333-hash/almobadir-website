@@ -1458,8 +1458,11 @@
       var wm = document.querySelector('.hero3__wordmark');
       var prm = matchMedia('(prefers-reduced-motion: reduce)').matches;
       var navigate = function () {
-        if (lang === 'ar') { window.location.href = '/'; }
-        else if (lang === 'en') { window.location.href = '/en/'; }
+        // Use relative paths so this works on both GitHub Pages
+        // (/almobadir-website/) and the future production domain (/).
+        // From AR root → 'en/' resolves to ./en/. AR is already-here so no-op.
+        if (lang === 'ar') { return; }
+        else if (lang === 'en') { window.location.href = 'en/'; }
       };
       if (wm && !prm) {
         wm.classList.add('lang-morph');

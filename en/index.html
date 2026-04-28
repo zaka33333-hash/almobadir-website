@@ -1248,8 +1248,11 @@
   // Click AR on the EN page → /. Click EN on the EN page → no-op (already here).
   (function () {
     function go(lang) {
-      if (lang === 'ar') { window.location.href = '/'; }
-      else if (lang === 'en') { window.location.href = '/en/'; }
+      // Relative paths so this works on both GitHub Pages
+      // (/almobadir-website/en/) and the future production domain (/en/).
+      // From EN root → '../' resolves to one level up = AR root.
+      if (lang === 'ar') { window.location.href = '../'; }
+      else if (lang === 'en') { return; /* already here */ }
     }
     document.addEventListener('DOMContentLoaded', function () {
       // Header buttons
