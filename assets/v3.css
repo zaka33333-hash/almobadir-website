@@ -1390,15 +1390,17 @@ main:focus { outline: none; }
 
 /* Body ambient grain — barely-there fibre noise across the void.
    Suppressed on cream paper sub-regions (matches BLUEPRINT material rule
-   "grain on void only" — paper handles its own texture). */
+   "grain on void only" — paper handles its own texture).
+   Uses overlay blend mode so it adds texture without lightening the
+   dark surface (screen blend was dimming the whole page). */
 body::after {
   content: '';
   position: fixed; inset: 0;
   pointer-events: none;
   z-index: var(--z-grain);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.92' numOctaves='2' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.92  0 0 0 0 0.82  0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.55;
-  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.92' numOctaves='2' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.92  0 0 0 0 0.82  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.32;
+  mix-blend-mode: overlay;
 }
 :has(.surface-paper.is-in-viewport) body::after,
 .slab-light body::after { opacity: 0; }
