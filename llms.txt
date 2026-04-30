@@ -56,6 +56,14 @@
 ## Brand promise
 "Content that replaces full courses." (محتوى يغنيك عن دورات كاملة)
 
+## Newsletter
+- Name: نشرة المبادر (The Almobadir Brief)
+- Language: **Arabic only** — issues are always published in Arabic regardless of which language the visitor subscribes from
+- Cadence: weekly, Sunday mornings (Riyadh time)
+- Length: 5-minute read
+- Format: one big business story · one economic number that matters · one applicable idea
+- Subscribe: https://almobadir.com/#newsletter
+
 ## Contact
 - General: hello@almobadir.com
 - Agency / commercial: via [almobadir.media](https://almobadir.media)
