@@ -748,6 +748,12 @@ main:focus { outline: none; }
 .nl3-trust li { display: inline-flex; align-items: center; gap: 6px; }
 .nl3-tick { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: rgba(230,33,59,0.14); color: var(--crimson); font-size: 11px; font-weight: 700; }
 .nl3-form { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 8px; padding: 6px; background: rgba(245,234,210,0.03); border: 1px solid var(--hairline); border-radius: var(--r-2xl); backdrop-filter: blur(8px); transition: border-color 320ms var(--ease-glide), box-shadow 320ms var(--ease-glide); }
+.nl3-status { grid-column: 1 / -1; margin: 6px 14px 4px; font: 500 12.5px/1.45 var(--font-ar-body); letter-spacing: 0.01em; min-height: 0; }
+.nl3-status[data-kind="success"] { color: var(--verde); }
+.nl3-status[data-kind="warn"]    { color: var(--gold); cursor: pointer; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.nl3-status[data-kind="warn"]:hover { color: var(--gold); opacity: 0.85; }
+.nl3-status[data-kind="error"]   { color: var(--crimson); }
+.nl3-input[aria-invalid="true"] { border-color: color-mix(in srgb, var(--crimson) 55%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--crimson) 35%, transparent); }
 .nl3-form:focus-within { border-color: rgba(230,33,59,0.45); box-shadow: 0 0 0 4px rgba(230,33,59,0.10), 0 18px 40px -20px rgba(230,33,59,0.45); }
 .nl3-field { position: relative; display: flex; align-items: center; padding: 0 18px; }
 .nl3-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

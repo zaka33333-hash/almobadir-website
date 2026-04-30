@@ -28,7 +28,7 @@
 
 <link rel="stylesheet" href="../assets/tokens.css">
 <link rel="stylesheet" href="../assets/base.css">
-<link rel="stylesheet" href="../assets/v3.css?v=2">
+<link rel="stylesheet" href="../assets/v3.css?v=14">
 
 <style>
   /* English-locale typography overrides — use Latin stack for body, keep Arabic SVG wordmark intact */
@@ -98,6 +98,30 @@
       "name": "Almobadir",
       "publisher": { "@id": "https://almobadir.com/#organization" },
       "inLanguage": ["en", "ar-SA"]
+    },
+    {
+      "@type": "Newsletter",
+      "@id": "https://almobadir.com/#newsletter",
+      "name": "The Almobadir Brief · نشرة المبادر",
+      "description": "Weekly Sunday-morning newsletter — one big story in business, one number in the economy, one applicable idea. Five-minute read.",
+      "url": "https://almobadir.com/en/#newsletter",
+      "publisher": { "@id": "https://almobadir.com/#organization" },
+      "inLanguage": ["en", "ar-SA"],
+      "isAccessibleForFree": true,
+      "schedulingFrequency": "P1W",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Business operators, founders, and finance-curious readers across MENA"
+      },
+      "potentialAction": {
+        "@type": "SubscribeAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://almobadir.com/en/#newsletter",
+          "actionPlatform": ["https://schema.org/DesktopWebPlatform","https://schema.org/MobileWebPlatform"]
+        },
+        "object": { "@id": "https://almobadir.com/#newsletter" }
+      }
     }
   ]
 }
@@ -1276,7 +1300,8 @@
     });
   })();
 </script>
-<script src="../assets/v3.js?v=2" defer></script>
+<script src="../assets/newsletter.js?v=1" defer></script>
+<script src="../assets/v3.js?v=14" defer></script>
 <script>
   // EN-locale overrides for content that v3.js writes in Arabic.
   // 1) METHOD progress numerals (Arabic-Indic ٠١-٠٥ → Latin 01-05)

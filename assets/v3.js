@@ -370,19 +370,95 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form) return;
     const input = form.querySelector('.nl3-input');
     const button = form.querySelector('.nl3-submit');
-    form.addEventListener('submit', (e) => {
+    const NL = (typeof window !== 'undefined' && window.AlmobadirNewsletter) || null;
+    const isAr = (document.documentElement.lang || 'ar').toLowerCase().startsWith('ar');
+
+    // Already-subscribed: shift to success state on initial load.
+    if (NL && NL.isSubscribed()) {
+      button.classList.add('is-success');
+      input.disabled = true;
+      input.placeholder = isAr ? 'مشترك بالفعل · تحقق من بريدك' : 'Already subscribed · check your inbox';
+    }
+
+    // Helper: update the inline status text under the form (creates it lazily).
+    function setStatus(kind, message) {
+      let el = form.querySelector('.nl3-status');
+      if (!el) {
+        el = document.createElement('p');
+        el.className = 'nl3-status';
+        el.setAttribute('role', 'status');
+        el.setAttribute('aria-live', 'polite');
+        form.appendChild(el);
+      }
+      el.dataset.kind = kind || '';
+      el.textContent = message || '';
+      el.style.display = message ? '' : 'none';
+    }
+
+    function shake() {
+      form.animate(
+        [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(0)' }],
+        { duration: 320, easing: 'cubic-bezier(0.28,0.11,0.32,1)' }
+      );
+    }
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (button.classList.contains('is-loading')) return;
       const value = (input.value || '').trim();
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      if (!valid) {
+
+      // Validation
+      const v = NL ? NL.validate(value) : { ok: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) };
+      if (!v.ok) {
         input.setAttribute('aria-invalid', 'true');
         input.focus();
-        form.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(0)' }], { duration: 320, easing: 'cubic-bezier(0.28,0.11,0.32,1)' });
+        shake();
+        if (v.hint === 'typo' && v.suggestion) {
+          setStatus('warn', isAr
+            ? 'هل تقصد ' + v.suggestion + '؟ اضغط لتصحيح.'
+            : 'Did you mean ' + v.suggestion + '? Click to fix.');
+          // Click to fix — set the input value to the suggestion
+          form.querySelector('.nl3-status').onclick = () => {
+            input.value = v.suggestion;
+            setStatus('', '');
+            input.focus();
+          };
+        } else if (v.hint === 'empty') {
+          setStatus('error', isAr ? 'يرجى إدخال بريدك الإلكتروني.' : 'Please enter your email.');
+        } else {
+          setStatus('error', isAr ? 'هذا البريد لا يبدو صحيحاً. تحقق من الصيغة.' : 'That email doesn\'t look right. Check the format.');
+        }
         return;
       }
+
       input.removeAttribute('aria-invalid');
+      setStatus('', '');
       button.classList.add('is-loading');
-      setTimeout(() => { button.classList.remove('is-loading'); button.classList.add('is-success'); input.value = ''; input.disabled = true; }, 720);
+      input.disabled = true;
+
+      // Subscribe via the shared module (or fall back to local-only echo if missing).
+      const result = NL
+        ? await NL.subscribe(value, 'main-newsletter')
+        : await new Promise(r => setTimeout(() => r({ ok: true, simulated: true }), 600));
+
+      button.classList.remove('is-loading');
+      if (result.ok) {
+        button.classList.add('is-success');
+        input.value = '';
+        input.placeholder = isAr ? 'وصلت · تحقق من بريدك' : 'Got it · check your inbox';
+        setStatus('success', result.simulated
+          ? (isAr ? 'تم استلام طلبك (وضع تجريبي · لم يتم إرسال بريد بعد)' : 'Captured (sandbox mode · no email sent yet)')
+          : (isAr ? 'تأكيد الاشتراك في بريدك خلال دقائق.' : 'Confirmation email landing in your inbox now.'));
+      } else {
+        button.classList.remove('is-success');
+        input.disabled = false;
+        if (result.error === 'network') {
+          setStatus('error', isAr ? 'تعذّر الاتصال. حاول مرة أخرى.' : 'Network error. Try again.');
+        } else {
+          setStatus('error', isAr ? 'حدث خطأ. حاول مرة أخرى أو راسلنا.' : 'Something went wrong. Try again or email us.');
+        }
+        shake();
+      }
     });
     const tilt = document.querySelector('[data-tilt] .nl3-frame');
     const wrap = document.querySelector('[data-tilt]');
@@ -512,15 +588,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const form = root.querySelector('.ftr3-cta__form');
     if (form) {
-      form.addEventListener('submit', (e) => {
+      const NL = (typeof window !== 'undefined' && window.AlmobadirNewsletter) || null;
+      const isAr = (document.documentElement.lang || 'ar').toLowerCase().startsWith('ar');
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const input = form.querySelector('.ftr3-cta__input');
-        const btn = form.querySelector('.ftr3-cta__btn span');
-        if (!input || !input.value || !/^\S+@\S+\.\S+$/.test(input.value)) { input?.focus(); return; }
-        const original = btn.textContent;
-        btn.textContent = 'تم ✓';
-        input.value = '';
-        setTimeout(() => { btn.textContent = original; }, 2400);
+        const btnSpan = form.querySelector('.ftr3-cta__btn span');
+        if (!input || !btnSpan) return;
+        const value = (input.value || '').trim();
+        const v = NL ? NL.validate(value) : { ok: /^\S+@\S+\.\S+$/.test(value) };
+        if (!v.ok) {
+          input.setAttribute('aria-invalid', 'true');
+          input.focus();
+          if (v.hint === 'typo' && v.suggestion) {
+            // For the footer form (compact), auto-fix typo on the second submit
+            input.value = v.suggestion;
+            input.removeAttribute('aria-invalid');
+          }
+          return;
+        }
+        input.removeAttribute('aria-invalid');
+        const originalLabel = btnSpan.textContent;
+        btnSpan.textContent = isAr ? 'جارِ الاشتراك…' : 'Subscribing…';
+        const result = NL
+          ? await NL.subscribe(value, 'footer')
+          : { ok: true, simulated: true };
+        if (result.ok) {
+          btnSpan.textContent = isAr ? 'تم ✓' : 'Done ✓';
+          input.value = '';
+          setTimeout(() => { btnSpan.textContent = originalLabel; }, 3200);
+        } else {
+          btnSpan.textContent = isAr ? 'فشل · حاول مجدداً' : 'Failed · retry';
+          setTimeout(() => { btnSpan.textContent = originalLabel; }, 2400);
+        }
       });
     }
   })();
