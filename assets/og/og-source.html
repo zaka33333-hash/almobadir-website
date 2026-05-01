@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>OG source · 1200x630</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Tajawal:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    background: #0A0F1E;
+    color: var(--ink);
+    font-family: 'Almarai', 'Tajawal', system-ui, sans-serif;
+    position: relative;
+  }
+  /* Layered atmospherics — mirror the hero's signature without cloning it */
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 78% 38%, rgba(230,33,59,0.42), transparent 62%),
+      radial-gradient(ellipse 60% 80% at 18% 78%, rgba(31,163,122,0.18), transparent 58%),
+      linear-gradient(135deg, rgba(230,33,59,0.06), rgba(10,15,30,0.0));
+  }
+  body::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,234,210,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,234,210,0.05) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: linear-gradient(135deg, rgba(0,0,0,1) 30%, rgba(0,0,0,0.2));
+  }
+  .frame {
+    position: relative; z-index: 2;
+    height: 100%; padding: 44px 70px; box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 10px 18px;
+    border: 1px solid rgba(245,234,210,0.18);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245,234,210,0.78);
+    background: rgba(0,0,0,0.28);
+    backdrop-filter: blur(8px);
+  }
+  .badge-dot {
+    width: 8px; height: 8px; border-radius: 999px; background: var(--crimson);
+    box-shadow: 0 0 14px rgba(230,33,59,0.7);
+  }
+  .meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(245,234,210,0.55);
+  }
+  .center { display: grid; align-content: center; gap: 18px; }
+  .wordmark {
+    font-family: 'Almarai', 'Tajawal', sans-serif;
+    font-weight: 800;
+    font-size: 140px; line-height: 0.94;
+    letter-spacing: -0.018em;
+    margin: 0;
+    color: transparent;
+    background: linear-gradient(180deg, #FF324A 0%, #E6213B 55%, #9C1428 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    text-shadow: 0 12px 56px rgba(230,33,59,0.32);
+  }
+  .tagline {
+    font-family: 'Almarai', 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 28px; line-height: 1.32;
+    color: rgba(245,234,210,0.9);
+    margin: 0;
+    max-width: 760px;
+  }
+  .tagline em {
+    font-style: normal; color: var(--crimson);
+  }
+  .bottom {
+    display: flex; align-items: end; justify-content: space-between; gap: 40px;
+  }
+  .stats {
+    display: grid; grid-auto-flow: column; gap: 36px;
+    font-family: 'Tajawal', sans-serif;
+  }
+  .stat-num {
+    font-weight: 800; font-size: 40px; line-height: 1;
+    color: var(--ink); font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .stat-num em {
+    font-style: normal; color: var(--crimson); font-size: 26px;
+  }
+  .stat-label {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245,234,210,0.52);
+  }
+  .url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; letter-spacing: 0.16em; text-transform: lowercase;
+    color: rgba(245,234,210,0.7);
+    padding: 10px 16px;
+    border: 1px solid rgba(245,234,210,0.16);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.28);
+  }
+  .crimson-rule {
+    position: absolute; left: 80px; right: 80px; top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(230,33,59,0.05) 25%,
+      rgba(230,33,59,0.6) 65%,
+      rgba(230,33,59,0.0) 100%);
+    transform: translateY(160px);
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+<div class="crimson-rule"></div>
+<div class="frame">
+
+  <div class="top">
+    <span class="badge"><span class="badge-dot"></span><span>LIVE · شبكة المبادر</span></span>
+    <span class="meta">EST. 1446H · RIYADH</span>
+  </div>
+
+  <div class="center">
+    <h1 class="wordmark">المبادر</h1>
+    <p class="tagline">عندما يلتقي <em>الترفيه</em> و<em>التعليم</em> · شبكة محتوى الأعمال والمال في السعودية</p>
+  </div>
+
+  <div class="bottom">
+    <div class="stats">
+      <div>
+        <div class="stat-num">3.3<em>M+</em></div>
+        <div class="stat-label">Total followers</div>
+      </div>
+      <div>
+        <div class="stat-num">11</div>
+        <div class="stat-label">Active channels</div>
+      </div>
+      <div>
+        <div class="stat-num">25<em>M</em></div>
+        <div class="stat-label">Monthly views</div>
+      </div>
+    </div>
+    <span class="url">almobadir.com</span>
+  </div>
+
+</div>
+</body>
+</html>
