@@ -1,0 +1,599 @@
+/* ════════════════════════════════════════════════════════════════
+   Almobadir · Publication-front stylesheet (v2)
+   ════════════════════════════════════════════════════════════════
+   The homepage was a brochure (hero3 + manif3 + nw3a + mtd3 + cnt3 +
+   nl3 + fnd3a + ftr3). It now renders as an editorial publication
+   front: mast-head + lead essay + newsletter + network desk + foot.
+
+   Philosophy:
+     - Reading column. Single column on desktop, ~64-70ch measure.
+     - Drop-cap on the opener. Pull-quote with crimson em-rule.
+     - Mast-head = nameplate (issue # + Hijri date + city).
+     - The 11 social handles attribute, don't dominate.
+     - Untranslatable — could not equally serve a SaaS or fintech
+       brand because the structure assumes weekly publishing.
+
+   Inherits from tokens.css + base.css. Reuses .nl3-form for the
+   newsletter (already wired to AlmobadirNewsletter.subscribe). Adds
+   pub-* selectors namespaced so this layer doesn't collide with v1.
+   ──────────────────────────────────────────────────────────────── */
+
+/* Reset some inherited base for the publication shell */
+body { background: var(--void); color: var(--ink); font-family: var(--font-ar-body); }
+
+/* ────── Mast-head ────────────────────────────────────────────── */
+.pub-mast {
+  position: relative;
+  padding: 22px clamp(20px, 4vw, 56px) 14px;
+  border-bottom: 1px solid var(--hairline);
+  z-index: var(--z-header);
+  background:
+    linear-gradient(180deg, rgba(230, 33, 59, 0.04), transparent 60%),
+    var(--void);
+}
+.pub-mast__top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+.pub-mast__mark {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: inherit;
+}
+.pub-mast__sigil { width: 30px; height: 30px; color: var(--crimson); }
+.pub-mast__wordmark {
+  font-family: var(--font-ar-display);
+  font-weight: 800; font-size: 22px;
+  letter-spacing: -0.012em;
+}
+.pub-mast__nav { display: flex; gap: 22px; justify-content: center; }
+.pub-mast__nav a {
+  font: 500 13.5px/1 var(--font-ar-body);
+  color: var(--ink-soft);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.22s var(--ease-glide);
+  padding: 6px 4px;
+}
+.pub-mast__nav a:hover { color: var(--ink); }
+.pub-mast__lang {
+  display: inline-grid; grid-auto-flow: column; gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+}
+.pub-mast__lang-btn {
+  appearance: none; cursor: pointer;
+  background: transparent; border: 0;
+  padding: 6px 12px; border-radius: 999px;
+  font: 600 11.5px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-mute);
+  transition: background 0.22s, color 0.22s;
+}
+.pub-mast__lang-btn:hover { color: var(--ink); }
+.pub-mast__lang-btn.is-active {
+  background: var(--ink); color: var(--void);
+}
+
+.pub-mast__rule {
+  height: 1px; margin: 16px 0 12px;
+  background: linear-gradient(90deg,
+    transparent, color-mix(in srgb, var(--crimson) 50%, transparent), transparent);
+}
+
+.pub-mast__meta {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  font: 500 11.5px/1 var(--font-mono);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.pub-mast__live {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--crimson);
+}
+.pub-mast__live em {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: var(--crimson); display: inline-block;
+  box-shadow: 0 0 12px var(--crimson);
+  animation: pub-pulse 1.6s ease-in-out infinite;
+}
+@keyframes pub-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.85); }
+}
+.pub-mast__sep { color: rgba(245,234,210,0.28); }
+.pub-mast__hijri { font-feature-settings: "ss01"; color: var(--ink-soft); }
+
+@media (max-width: 760px) {
+  .pub-mast__top { grid-template-columns: auto 1fr auto; gap: 12px; }
+  .pub-mast__nav { display: none; }
+  .pub-mast__meta { font-size: 10.5px; gap: 6px; }
+  .pub-mast__hijri, .pub-mast__city { display: none; }
+}
+
+/* ────── Issue · the lead essay ──────────────────────────────── */
+.pub-issue {
+  max-width: 720px;
+  margin: clamp(48px, 8vh, 96px) auto clamp(64px, 10vh, 112px);
+  padding: 0 clamp(20px, 4vw, 36px);
+}
+
+.pub-issue__head {
+  margin-bottom: 56px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.pub-issue__topic {
+  display: inline-block;
+  margin-bottom: 24px;
+  font: 500 11.5px/1 var(--font-mono);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--crimson);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid color-mix(in srgb, var(--crimson) 50%, transparent);
+  transition: color 0.22s, border-color 0.22s;
+}
+.pub-issue__topic:hover { color: var(--crimson-2); border-color: var(--crimson-2); }
+
+.pub-issue__title {
+  font-family: var(--font-ar-display);
+  font-weight: 800;
+  font-size: clamp(44px, 6.4vw, 96px);
+  line-height: 0.96;
+  letter-spacing: -0.028em;
+  margin: 0 0 28px;
+  color: var(--ink);
+}
+.pub-issue__title-num {
+  display: block;
+  color: var(--crimson);
+  font-size: 1.18em;
+  text-shadow: 0 8px 32px color-mix(in srgb, var(--crimson) 22%, transparent);
+}
+.pub-issue__title-em {
+  display: block;
+  font-size: 0.74em;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 8px;
+  letter-spacing: -0.022em;
+}
+
+.pub-issue__deck {
+  font-family: var(--font-ar-body);
+  font-size: clamp(18px, 1.8vw, 23px);
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: rgba(245, 234, 210, 0.9);
+  margin: 0 0 32px;
+  max-width: 56ch;
+}
+.pub-issue__deck strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.pub-issue__byline {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+}
+.pub-issue__by em {
+  font-style: normal;
+  color: rgba(245, 234, 210, 0.42);
+  margin-inline-end: 4px;
+}
+.pub-issue__by strong {
+  color: var(--ink);
+  font-family: var(--font-ar-body);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.pub-issue__sep { color: rgba(245,234,210,0.24); }
+
+/* ────── Issue body — reading column ─────────────────────────── */
+.pub-issue__body {
+  font-family: var(--font-ar-body);
+  font-size: 18.5px;
+  line-height: 1.85;
+  color: rgba(245, 234, 210, 0.92);
+}
+.pub-issue__body p {
+  margin: 0 0 26px;
+  max-width: 64ch;
+}
+.pub-issue__body p strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+.pub-issue__body p em {
+  font-style: italic;
+  color: var(--crimson);
+  font-feature-settings: "ss01";
+}
+
+/* Drop-cap on the opener — the BLUEPRINT typography sig #2 finally
+   used in its proper context: a long-form lead. */
+.pub-issue__opener::first-letter {
+  float: inline-start;
+  font-family: var(--font-ar-display);
+  font-size: 5em;
+  line-height: 0.86;
+  font-weight: 900;
+  color: var(--crimson);
+  padding-inline-end: 0.16em;
+  margin-block-start: 0.04em;
+  margin-block-end: -0.06em;
+  text-shadow: 0 0 32px color-mix(in srgb, var(--crimson) 32%, transparent);
+}
+
+.pub-issue__body h2 {
+  font-family: var(--font-ar-display);
+  font-weight: 800;
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.16;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 56px 0 18px;
+  position: relative;
+}
+.pub-issue__body h2::before {
+  content: '';
+  display: block;
+  width: 36px; height: 2px;
+  background: var(--crimson);
+  margin-bottom: 14px;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--crimson) 60%, transparent);
+}
+
+.pub-issue__pull {
+  margin: 36px 0 36px;
+  padding: 24px 28px;
+  background:
+    linear-gradient(180deg, rgba(230, 33, 59, 0.04), transparent),
+    var(--void-2);
+  border-inline-start: 3px solid var(--crimson);
+  border-radius: 6px;
+  position: relative;
+}
+.pub-issue__pull p {
+  margin: 0;
+  font-family: var(--font-ar-display);
+  font-weight: 600;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  max-width: none;
+}
+.pub-issue__pull p em {
+  font-style: italic;
+  color: var(--crimson);
+}
+
+/* ────── Issue foot · sign-off + next-week tease ─────────────── */
+.pub-issue__foot {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--hairline);
+  display: grid; gap: 32px;
+}
+.pub-issue__signoff {
+  display: flex; align-items: baseline; gap: 12px;
+  font-family: var(--font-ar-display);
+}
+.pub-issue__signoff-mark {
+  font-size: 22px;
+  color: var(--crimson);
+}
+.pub-issue__signoff-name {
+  font-weight: 800; font-size: 22px;
+  color: var(--ink);
+}
+.pub-issue__signoff-loc {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-mute);
+  align-self: center;
+}
+
+.pub-issue__next {
+  padding: 22px 26px;
+  background: var(--void-2);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+}
+.pub-issue__next-eye {
+  display: inline-block;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 10px;
+}
+.pub-issue__next p {
+  margin: 0;
+  font-family: var(--font-ar-body);
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.pub-issue__next p strong {
+  color: var(--ink); font-weight: 700;
+}
+
+/* ────── Newsletter strip ────────────────────────────────────── */
+.pub-brief {
+  background:
+    radial-gradient(ellipse 70% 100% at 30% 0%, rgba(230,33,59,0.08), transparent 65%),
+    var(--void-3);
+  border-block: 1px solid var(--hairline);
+  padding: clamp(56px, 9vh, 96px) clamp(20px, 4vw, 56px);
+}
+.pub-brief__inner {
+  max-width: 1080px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.pub-brief__eye {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 500 11.5px/1 var(--font-mono);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 18px;
+}
+.pub-brief__pulse {
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 12px var(--crimson);
+  animation: pub-pulse 1.6s ease-in-out infinite;
+}
+.pub-brief__title {
+  font-family: var(--font-ar-display);
+  font-weight: 800;
+  font-size: clamp(32px, 4.4vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+.pub-brief__title em {
+  font-style: normal;
+  color: var(--crimson);
+  font-weight: 800;
+}
+.pub-brief__lede {
+  font-size: 16px; line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+  max-width: 48ch;
+}
+.pub-brief__trust {
+  display: flex; flex-wrap: wrap; gap: 16px;
+  margin: 0; padding: 0; list-style: none;
+}
+.pub-brief__trust li {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 500 12.5px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+}
+.pub-brief__trust li svg { color: var(--verde); flex: none; }
+
+.pub-brief__form {
+  background: rgba(245, 234, 210, 0.04);
+  border: 1px solid var(--hairline-strong);
+}
+
+@media (max-width: 880px) {
+  .pub-brief__inner { grid-template-columns: 1fr; gap: 36px; }
+}
+
+/* ────── Network desk · curated week ─────────────────────────── */
+.pub-desk {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(56px, 9vh, 112px) clamp(20px, 4vw, 56px);
+}
+.pub-desk__head {
+  display: grid; gap: 12px;
+  margin-bottom: 40px;
+  max-width: 720px;
+}
+.pub-desk__eye {
+  font: 500 11.5px/1 var(--font-mono);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--crimson);
+}
+.pub-desk__title {
+  font-family: var(--font-ar-display);
+  font-weight: 800;
+  font-size: clamp(28px, 3.8vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin: 0;
+}
+.pub-desk__sub {
+  font-size: 15.5px; line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 56ch;
+}
+
+.pub-desk__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+.pub-desk__card {
+  display: grid; gap: 12px;
+  padding: 22px 24px 24px;
+  background: var(--void-2);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.32s var(--ease-glide), transform 0.32s var(--ease-glide), background 0.32s;
+}
+.pub-desk__card::before {
+  content: '';
+  position: absolute; top: 0; inset-inline: 0;
+  height: 2px;
+  background: var(--c, var(--crimson));
+  transform-origin: right center;
+  transform: scaleX(0.32);
+  transition: transform 0.55s var(--ease-glide);
+}
+.pub-desk__card:hover {
+  border-color: color-mix(in srgb, var(--c, var(--crimson)) 50%, transparent);
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--void-2) 86%, var(--c, var(--crimson)));
+}
+.pub-desk__card:hover::before { transform: scaleX(1); }
+
+.pub-desk__card-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.pub-desk__handle {
+  font: 600 12.5px/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--c, var(--crimson));
+}
+.pub-desk__format {
+  font: 500 9.5px/1 var(--font-mono);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 4px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+}
+.pub-desk__card-title {
+  font-family: var(--font-ar-display);
+  font-weight: 700;
+  font-size: 18.5px;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin: 0;
+}
+.pub-desk__card-deck {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.pub-desk__card-meta {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  margin-top: 2px;
+}
+
+.pub-desk__foot {
+  margin-top: 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--hairline);
+}
+.pub-desk__more {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  text-decoration: none;
+  font: 600 13px/1 var(--font-ar-body);
+  color: var(--ink);
+  transition: border-color 0.22s, background 0.22s;
+}
+.pub-desk__more:hover {
+  border-color: var(--crimson);
+  background: color-mix(in srgb, var(--crimson) 8%, transparent);
+}
+.pub-desk__count {
+  font: 500 11.5px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ────── Mast-foot ────────────────────────────────────────────── */
+.pub-foot {
+  background: var(--void-2);
+  border-top: 1px solid var(--hairline);
+  padding: clamp(48px, 8vh, 80px) clamp(20px, 4vw, 56px) 0;
+}
+.pub-foot__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 56px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--hairline);
+}
+.pub-foot__brand { max-width: 360px; }
+.pub-foot__mark {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: inherit;
+  margin-bottom: 18px;
+}
+.pub-foot__mark svg { width: 32px; height: 32px; color: var(--crimson); }
+.pub-foot__wordmark {
+  font-family: var(--font-ar-display);
+  font-weight: 800; font-size: 26px;
+}
+.pub-foot__tag {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.pub-foot__nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.pub-foot__col h4 {
+  font: 500 11.5px/1 var(--font-mono);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-mute);
+  margin: 0 0 14px;
+  font-weight: 500;
+}
+.pub-foot__col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 8px;
+}
+.pub-foot__col a {
+  font: 400 14px/1.45 var(--font-ar-body);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.pub-foot__col a:hover { color: var(--crimson); }
+
+.pub-foot__base {
+  max-width: 1280px; margin: 0 auto;
+  padding: 22px 0;
+  display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.pub-foot__motto { color: var(--crimson); }
+
+@media (max-width: 880px) {
+  .pub-foot__inner { grid-template-columns: 1fr; gap: 36px; }
+  .pub-foot__nav { grid-template-columns: repeat(2, 1fr); }
+}
