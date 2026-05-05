@@ -7,7 +7,7 @@ Allow: /
 
 # LLM crawlers — explicitly allowed so the brand surfaces in AI search
 # (ChatGPT, Claude, Perplexity, Gemini) which are increasingly
-# significant discovery channels for Saudi B2B audiences.
+# significant discovery channels for pan-Arab / MENA B2B audiences.
 User-agent: GPTBot
 Allow: /
 

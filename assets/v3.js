@@ -495,8 +495,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const d = Math.floor(h / 24);
         const hh = h % 24;
         const m = Math.floor((diff % 3600000) / 60000);
-        if (d > 0) { out.textContent = `الأحد · 9:00 ص الرياض · بعد ${d} ي ${hh} س`; }
-        else { out.textContent = `الأحد · 9:00 ص الرياض · بعد ${hh} س ${m} د`; }
+        if (d > 0) { out.textContent = `الأحد · 9:00 ص (GMT+3) · بعد ${d} ي ${hh} س`; }
+        else { out.textContent = `الأحد · 9:00 ص (GMT+3) · بعد ${hh} س ${m} د`; }
       };
       tick();
       setInterval(tick, 60000);
@@ -555,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!root) return;
     const clockEl = root.querySelector('#ftr3-clock');
     if (clockEl) {
-      const fmt = new Intl.DateTimeFormat('ar-SA-u-nu-latn', { timeZone: 'Asia/Riyadh', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const fmt = new Intl.DateTimeFormat('ar-u-nu-latn', { timeZone: 'Asia/Riyadh', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
       const tick = () => { clockEl.textContent = fmt.format(new Date()); };
       tick();
       let raf;

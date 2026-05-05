@@ -1,19 +1,19 @@
 # Almobadir — المبادر
 
-> Almobadir is a Saudi-anchored, pan-Arab business and finance media
+> Almobadir is a pan-Arab / MENA business and finance media
 > network. We translate the Arab business environment for the next
-> generation of initiators — from Morocco to the Gulf — through cinematic
+> generation of initiators — across the entire Arab world — through cinematic
 > storytelling that makes the most complex ideas in business and money
 > readable, watchable, and memorable.
 
 ## Brand
 - **Name (Arabic):** المبادر
 - **Name (English / transliteration):** Almobadir
-- **Founder:** Badr Shaker — بدر شاكر (Riyadh, Saudi Arabia)
+- **Founder:** Badr Shaker — بدر شاكر
 - **Founded:** 2022
 - **Industry:** Editorial / media network, marketing agency, founder advisory
-- **Headquarters:** Riyadh, Saudi Arabia (operational)
-- **Audience:** Pan-Arab (Morocco → Gulf), Arabic-first
+- **Region:** pan-Arab / MENA — content reaches all 22 Arab markets
+- **Audience:** Pan-Arab, Arabic-first
 
 ## Network reach (verified Q2 2026)
 - **Total followers:** ~3.3M+ across 11 active accounts
@@ -59,7 +59,7 @@
 ## Newsletter
 - Name: نشرة المبادر (The Almobadir Brief)
 - Language: **Arabic only** — issues are always published in Arabic regardless of which language the visitor subscribes from
-- Cadence: weekly, Sunday mornings (Riyadh time)
+- Cadence: weekly, Sunday mornings (GMT+3)
 - Length: 5-minute read
 - Format: one big business story · one economic number that matters · one applicable idea
 - Subscribe: https://almobadir.com/#newsletter
