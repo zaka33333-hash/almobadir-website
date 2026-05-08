@@ -20,6 +20,70 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://almobadir.com/"/>
   </url>
   <url>
+    <loc>https://almobadir.com/mindset/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/mindset/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/mindset/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/flousak/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/flousak/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/flousak/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/shalnack/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/shalnack/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/shalnack/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/business/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/business/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/business/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/en/mindset/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/mindset/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/mindset/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/en/flousak/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/flousak/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/flousak/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/en/shalnack/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/shalnack/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/shalnack/"/>
+  </url>
+  <url>
+    <loc>https://almobadir.com/en/business/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://almobadir.com/business/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://almobadir.com/en/business/"/>
+  </url>
+  <url>
     <loc>https://almobadir.com/about/</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
