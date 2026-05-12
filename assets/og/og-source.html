@@ -62,16 +62,20 @@
   }
   .center { display: grid; align-content: center; gap: 18px; }
   .wordmark {
-    font-family: 'Almarai', 'Tajawal', sans-serif;
-    font-weight: 800;
-    font-size: 140px; line-height: 0.94;
-    letter-spacing: -0.018em;
+    display: block;
+    width: 720px;
+    aspect-ratio: 706 / 294;
     margin: 0;
-    color: transparent;
     background: linear-gradient(180deg, #FF324A 0%, #E6213B 55%, #9C1428 100%);
-    -webkit-background-clip: text;
-            background-clip: text;
-    text-shadow: 0 12px 56px rgba(230,33,59,0.32);
+    -webkit-mask-image: url('../logo/brand-wordmark-white-crop.png');
+            mask-image: url('../logo/brand-wordmark-white-crop.png');
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    filter: drop-shadow(0 12px 56px rgba(230,33,59,0.32));
   }
   .tagline {
     font-family: 'Almarai', 'Tajawal', sans-serif;
@@ -137,7 +141,7 @@
   </div>
 
   <div class="center">
-    <h1 class="wordmark">المبادر</h1>
+    <div class="wordmark" role="img" aria-label="المبادر"></div>
     <p class="tagline">عندما يلتقي <em>الترفيه</em> و<em>التعليم</em> · شبكة محتوى الأعمال والمال في العالم العربي</p>
   </div>
 
