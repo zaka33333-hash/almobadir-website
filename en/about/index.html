@@ -70,6 +70,81 @@
   .net-handle small { display: block; font-family: 'Inter', sans-serif; letter-spacing: 0; font-weight: 400; color: var(--ink-mute); margin-top: 3px; font-size: 12.5px; }
   .net-count { font: 800 18px/1 'Instrument Serif', Georgia, serif; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 
+  /* Manifesto · the editorial charter pulled from old homepage */
+  .manifesto {
+    margin: 28px 0 32px;
+    padding: 30px 34px;
+    background: linear-gradient(180deg, rgba(230,33,59,0.06), transparent), var(--void-2);
+    border-inline-start: 4px solid var(--crimson);
+    border-radius: 12px;
+    max-width: 64ch;
+  }
+  .manifesto__text {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.32;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0 0 16px;
+  }
+  .manifesto__text em { font-style: italic; color: var(--crimson); }
+  .manifesto__cite {
+    font: 500 11px/1.4 var(--font-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0;
+  }
+
+  /* Method · five stages applied to every piece of content */
+  .method__title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(20px, 2vw, 24px);
+    font-weight: 400;
+    color: var(--ink);
+    margin: 32px 0 18px;
+    letter-spacing: -0.005em;
+  }
+  .method {
+    display: grid; gap: 14px;
+    margin: 0 0 48px;
+    padding: 0;
+    list-style: none;
+  }
+  .method__row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 22px;
+    padding: 18px 22px;
+    background: var(--void-2);
+    border-radius: 10px;
+    border: 1px solid var(--hairline);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .method__row:hover { border-color: var(--crimson); background: color-mix(in srgb, var(--void-2) 88%, var(--crimson)); }
+  .method__num {
+    font: 400 30px/1 'Instrument Serif', Georgia, serif;
+    color: var(--crimson);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .method__h {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0 0 6px;
+    letter-spacing: -0.005em;
+  }
+  .method__h em { font-style: italic; color: var(--crimson); }
+  .method__body {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(245,234,210,0.82);
+    margin: 0;
+    max-width: 60ch;
+  }
+
   .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin: 56px 0 24px; }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border: 1px solid var(--hairline-strong); border-radius: 999px; font-size: 13px; font-weight: 600; color: inherit; text-decoration: none; transition: border-color 0.3s, background 0.3s, transform 0.3s; }
   .btn:hover { border-color: var(--crimson); background: color-mix(in srgb, var(--crimson) 10%, transparent); transform: translateY(-1px); text-decoration: none; }
@@ -157,13 +232,61 @@
     <a class="net-row" href="https://www.tiktok.com/@almobadir_mindset" style="--c: #1FA37A" target="_blank" rel="noopener"><span class="net-dot"></span><span class="net-handle">@almobadir_mindset<small>TikTok</small></span><span class="net-count">150K</span></a>
   </div>
 
-  <h2>Editorial philosophy</h2>
+  <h2>Editorial philosophy · the method</h2>
+
+  <blockquote class="manifesto" cite="https://almobadir.com">
+    <p class="manifesto__text">
+      We are not a <em>content platform</em>. We are a team that believes serious knowledge
+      has no obligation to be boring, and that the most intricate ideas in business and
+      finance can be told with <em>the pull of a thriller</em>.
+    </p>
+    <p class="manifesto__cite">Almobadir · 2026 · DOC. 001 / EDITORIAL CHARTER</p>
+  </blockquote>
+
   <p>
     <strong>Content that replaces full courses.</strong> That's the promise on the cover of every piece we make.
     We don't summarize the news — we choose what deserves to be understood deeply, and tell it in a register
-    worthy of the reader. Five stages, applied to every piece of content: choose, simplify, narrate, design,
-    then listen.
+    worthy of the reader.
   </p>
+
+  <h3 class="method__title">Five stages · applied to every piece before publish</h3>
+  <ol class="method">
+    <li class="method__row">
+      <span class="method__num">01</span>
+      <div>
+        <h4 class="method__h">Selection · <em>we choose the subject</em></h4>
+        <p class="method__body">One decision, one number, or one event worth understanding deeply — not just a passing headline that's consumed in a minute and forgotten in an hour.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">02</span>
+      <div>
+        <h4 class="method__h">Simplification · <em>we simplify without reducing</em></h4>
+        <p class="method__body">We strip the jargon, never the idea. The reader leaves with the principle, not the vocabulary. Simplicity is respect for intelligence, not surrender of depth.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">03</span>
+      <div>
+        <h4 class="method__h">Narration · <em>we tell it like a film</em></h4>
+        <p class="method__body">Characters, tension, transformation. The information arrives through the story, not before it. The reader doesn't memorize the report — they don't forget the scene.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">04</span>
+      <div>
+        <h4 class="method__h">Design · <em>we design visually</em></h4>
+        <p class="method__body">Every slide is a magazine cover. Cinematic imagery, heavy Arabic typography, a cream-and-crimson contrast that catches the eye before it catches the mind.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">05</span>
+      <div>
+        <h4 class="method__h">Listening · <em>we publish, and listen</em></h4>
+        <p class="method__body">Content opens the conversation; it doesn't close it. We read every comment, and we shape the next angle from what the reader said — not from what we expected.</p>
+      </div>
+    </li>
+  </ol>
 
   <h2>The agency · Almobadir Media</h2>
   <p>

@@ -98,6 +98,80 @@
   .net-handle small { display: block; font-family: var(--font-ar-body); letter-spacing: 0; font-weight: 400; color: var(--ink-mute); margin-top: 3px; font-size: 12.5px; }
   .net-count { font: 800 18px/1 var(--font-ar-display); color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 
+  /* Manifesto · the editorial charter pulled from old homepage */
+  .manifesto {
+    margin: 28px 0 32px;
+    padding: 30px 34px;
+    background: linear-gradient(180deg, rgba(230,33,59,0.06), transparent), var(--void-2);
+    border-inline-start: 4px solid var(--crimson);
+    border-radius: 12px;
+    max-width: 64ch;
+  }
+  .manifesto__text {
+    font-family: var(--font-ar-display);
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.55;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 16px;
+  }
+  .manifesto__text em { font-style: normal; color: var(--crimson); }
+  .manifesto__cite {
+    font: 500 11px/1.4 var(--font-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0;
+  }
+
+  /* Method · five stages applied to every piece of content */
+  .method__title {
+    font-family: var(--font-ar-display);
+    font-size: clamp(17px, 1.6vw, 20px);
+    font-weight: 700;
+    color: var(--ink);
+    margin: 32px 0 18px;
+    letter-spacing: -0.005em;
+  }
+  .method {
+    display: grid; gap: 14px;
+    margin: 0 0 48px;
+    padding: 0;
+    list-style: none;
+  }
+  .method__row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 22px;
+    padding: 18px 22px;
+    background: var(--void-2);
+    border-radius: 10px;
+    border: 1px solid var(--hairline);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .method__row:hover { border-color: var(--crimson); background: color-mix(in srgb, var(--void-2) 88%, var(--crimson)); }
+  .method__num {
+    font: 800 26px/1 var(--font-ar-display);
+    color: var(--crimson);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .method__h {
+    font-family: var(--font-ar-display);
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+  .method__h em { font-style: normal; color: var(--crimson); }
+  .method__body {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(245,234,210,0.82);
+    margin: 0;
+    max-width: 60ch;
+  }
+
   .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin: 56px 0 24px; }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border: 1px solid var(--hairline-strong); border-radius: 999px; font-size: 13px; font-weight: 600; color: inherit; text-decoration: none; transition: border-color 0.3s, background 0.3s, transform 0.3s; }
   .btn:hover { border-color: var(--crimson); background: color-mix(in srgb, var(--crimson) 10%, transparent); transform: translateY(-1px); text-decoration: none; }
@@ -184,12 +258,60 @@
     <a class="net-row" href="https://www.tiktok.com/@almobadir_mindset" style="--c: #1FA37A" target="_blank" rel="noopener"><span class="net-dot"></span><span class="net-handle">@almobadir_mindset<small>تيك توك</small></span><span class="net-count">150K</span></a>
   </div>
 
-  <h2>الفلسفة التحريرية</h2>
+  <h2>الفلسفة التحريرية · المنهج</h2>
+
+  <blockquote class="manifesto" cite="https://almobadir.com">
+    <p class="manifesto__text">
+      نحن لسنا <em>منصةَ محتوى</em>. نحن فريقٌ يؤمن أن المعرفةَ الجادّة لا يجب أن
+      تكون مملّة، وأن أعقدَ مفاهيم الأعمال والمال يمكن سردُها بنفس <em>جاذبيةِ
+      أفلامِ الإثارة</em>.
+    </p>
+    <p class="manifesto__cite">المبادر · 2026 · DOC. 001 / EDITORIAL CHARTER</p>
+  </blockquote>
+
   <p>
     <strong>محتوى يغنيك عن دورات كاملة.</strong> هذا الوعد على غلاف كل قطعة ننتجها.
     لا نلخّص الأخبار — نختار ما يستحقّ أن يُفهم بعمق ونرويه بلغة تليق بالقارئ.
-    خمس مراحل، تطبَّق على كل قطعة محتوى نُنتجها: اختيار، تبسيط، سرد، تصميم، ثم إصغاء.
   </p>
+
+  <h3 class="method__title">خمس مراحل · تُطبَّق على كل قطعة قبل النشر</h3>
+  <ol class="method">
+    <li class="method__row">
+      <span class="method__num">٠١</span>
+      <div>
+        <h4 class="method__h">الاختيار · <em>نختار الموضوع</em></h4>
+        <p class="method__body">قرارٌ واحد، رقمٌ واحد، أو حدثٌ واحد يستحقّ أن يُفهم بعمق · وليس مجرّد عنوانٍ عابر يُستهلك في دقيقة ويُنسى في ساعة.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">٠٢</span>
+      <div>
+        <h4 class="method__h">التبسيط · <em>نُبسّط بدون اختزال</em></h4>
+        <p class="method__body">نُزيل المصطلحات، لا الفكرة. القارئ يخرج فاهماً للأساس، لا حافظاً للكلمات. التبسيط احترامٌ للذكاء، لا تنازلٌ عن العمق.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">٠٣</span>
+      <div>
+        <h4 class="method__h">السرد · <em>نسرد كفيلم</em></h4>
+        <p class="method__body">شخصيات، توتر، تحوّل. المعلومة تأتي من خلال القصّة، لا قبلها. القارئ لا يحفظ التقرير، لكنّه لا ينسى المشهد.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">٠٤</span>
+      <div>
+        <h4 class="method__h">التصميم · <em>نصمّم بصرياً</em></h4>
+        <p class="method__body">كل شريحة كأنها غلاف مجلّة. صورٌ سينمائية، طباعةٌ عربية ثقيلة، تباينٌ أحمر/كريمي يُمسك العين قبل أن يُمسك العقل.</p>
+      </div>
+    </li>
+    <li class="method__row">
+      <span class="method__num">٠٥</span>
+      <div>
+        <h4 class="method__h">الإصغاء · <em>ننشر، ونُصغي</em></h4>
+        <p class="method__body">المحتوى يبدأ المحادثة، لا يُنهيها. نقرأ كل تعليق، ونُطوِّر زوايا الموضوع التالي ممّا قاله القارئ · لا ممّا توقّعناه نحن.</p>
+      </div>
+    </li>
+  </ol>
 
   <h2>الوكالة · المبادر ميديا</h2>
   <p>
