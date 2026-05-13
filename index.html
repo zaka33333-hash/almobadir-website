@@ -40,7 +40,7 @@
 
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/v3.css?v=16">
+<link rel="stylesheet" href="assets/v3.css?v=17">
 
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
@@ -327,28 +327,33 @@
       </div>
     </div>
   </div>
-  <div class="hdr3-drawer" id="hdr3-drawer" aria-hidden="true">
-    <div class="hdr3-drawer-inner">
-      <nav class="hdr3-drawer-nav" aria-label="قائمة الجوال">
-        <a href="#network">الشبكة</a>
-        <a href="#method">المنهج</a>
-        <a href="#content">المحتوى</a>
-        <a href="https://almobadir.media" target="_blank" rel="noopener">الوكالة ↗</a>
-      </nav>
-      <div class="hdr3-drawer-net">
-        <span class="hdr3-drawer-label">الشبكة · +2.2M متابع · إنستغرام + تيك توك</span>
-        <a href="https://instagram.com/almobadir_mindset" data-color="verde"><b>@almobadir_mindset</b><i>478K</i></a>
-        <a href="https://instagram.com/almobadir" data-color="crimson"><b>@almobadir</b><i>363K</i></a>
-        <a href="https://instagram.com/badrshaqer" data-color="crimson"><b>@badrshaqer</b><i>317K</i></a>
-        <a href="https://instagram.com/shalnack" data-color="gold"><b>@shalnack</b><i>672K</i></a>
-        <a href="https://instagram.com/almobadir_flousak" data-color="azure"><b>@almobadir_flousak</b><i>202K</i></a>
-        <a href="https://instagram.com/almobadir_business" data-color="crimson"><b>@almobadir_business</b><i>124K</i></a>
-        <a href="https://instagram.com/almobadir_media" data-color="teal"><b>@almobadir_media</b><i>57.7K</i></a>
-      </div>
-      <a href="#newsletter" class="hdr3-drawer-cta">اشترك في النشرة ↗</a>
-    </div>
-  </div>
 </header>
+
+<!-- Drawer is intentionally OUTSIDE the header so its position:fixed is
+     anchored to the viewport, not the header's containing block (the header
+     has backdrop-filter which creates a new fixed-positioned containing
+     block — keeping the drawer inside collapsed it to height:0). -->
+<div class="hdr3-drawer" id="hdr3-drawer" aria-hidden="true" dir="rtl">
+  <div class="hdr3-drawer-inner">
+    <nav class="hdr3-drawer-nav" aria-label="قائمة الجوال">
+      <a href="#network">الشبكة</a>
+      <a href="#method">المنهج</a>
+      <a href="#content">المحتوى</a>
+      <a href="https://almobadir.media" target="_blank" rel="noopener">الوكالة ↗</a>
+    </nav>
+    <div class="hdr3-drawer-net">
+      <span class="hdr3-drawer-label">الشبكة · +2.2M متابع · إنستغرام + تيك توك</span>
+      <a href="https://instagram.com/almobadir_mindset" data-color="verde"><b>@almobadir_mindset</b><i>478K</i></a>
+      <a href="https://instagram.com/almobadir" data-color="crimson"><b>@almobadir</b><i>363K</i></a>
+      <a href="https://instagram.com/badrshaqer" data-color="crimson"><b>@badrshaqer</b><i>317K</i></a>
+      <a href="https://instagram.com/shalnack" data-color="gold"><b>@shalnack</b><i>672K</i></a>
+      <a href="https://instagram.com/almobadir_flousak" data-color="azure"><b>@almobadir_flousak</b><i>202K</i></a>
+      <a href="https://instagram.com/almobadir_business" data-color="crimson"><b>@almobadir_business</b><i>124K</i></a>
+      <a href="https://instagram.com/almobadir_media" data-color="teal"><b>@almobadir_media</b><i>57.7K</i></a>
+    </div>
+    <a href="#newsletter" class="hdr3-drawer-cta">اشترك في النشرة ↗</a>
+  </div>
+</div>
 
 <main id="main" tabindex="-1">
 
@@ -998,7 +1003,7 @@
 </script>
 <script src="assets/cookie-banner.js?v=1" defer></script>
 <script src="assets/newsletter.js?v=1" defer></script>
-<script src="assets/v3.js?v=14" defer></script>
+<script src="assets/v3.js?v=17" defer></script>
 
 <!-- ════════════════════════════════════════════════════════════════
      Hero Wordmark Construct — motion@12 signature entrance
