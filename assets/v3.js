@@ -44,12 +44,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const mega = item.querySelector('.hdr3-mega');
       if (!mega) return;
       mega.style.setProperty('--hdr3-mega-shift', '0px');
+      // Compute target rect using offsetWidth + the trigger's center, so we
+      // don't measure mid-transition (the menu has scale(0.98) → scale(1)
+      // and at the requestAnimationFrame moment getBoundingClientRect still
+      // reflects the scaled-down rect, which can deceptively fit the
+      // viewport when the final scaled-up rect actually overflows).
       requestAnimationFrame(() => {
-        const r = mega.getBoundingClientRect();
+        const trigger = item.querySelector('.hdr3-nav-link');
+        const tr = trigger.getBoundingClientRect();
+        const center = tr.left + tr.width / 2;
+        const w = mega.offsetWidth; // natural unscaled width
+        const left = center - w / 2;
+        const right = center + w / 2;
         const pad = 12;
         let shift = 0;
-        if (r.left < pad) shift = pad - r.left;
-        else if (r.right > window.innerWidth - pad) shift = window.innerWidth - pad - r.right;
+        if (left < pad) shift = pad - left;
+        else if (right > window.innerWidth - pad) shift = window.innerWidth - pad - right;
         if (shift !== 0) mega.style.setProperty('--hdr3-mega-shift', shift + 'px');
       });
     };
