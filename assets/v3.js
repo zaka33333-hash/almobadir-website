@@ -35,46 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
     const megaItems = root.querySelectorAll('.hdr3-has-mega');
     let megaCloseTimer = null;
-    // Mega-menu position clamping. The menu is `transform: translate(-50%)`
-    // centered on the trigger, which can overflow the viewport on smaller
-    // laptops when the trigger is near a screen edge. After opening we
-    // measure the menu and write a horizontal shift to --hdr3-mega-shift,
-    // which CSS folds back into the transform.
-    const clampMega = (item) => {
-      const mega = item.querySelector('.hdr3-mega');
-      if (!mega) return;
-      mega.style.setProperty('--hdr3-mega-shift', '0px');
-      // Compute target rect using offsetWidth + the trigger's center, so we
-      // don't measure mid-transition (the menu has scale(0.98) → scale(1)
-      // and at the requestAnimationFrame moment getBoundingClientRect still
-      // reflects the scaled-down rect, which can deceptively fit the
-      // viewport when the final scaled-up rect actually overflows).
-      requestAnimationFrame(() => {
-        const trigger = item.querySelector('.hdr3-nav-link');
-        const tr = trigger.getBoundingClientRect();
-        const center = tr.left + tr.width / 2;
-        const w = mega.offsetWidth; // natural unscaled width
-        const left = center - w / 2;
-        const right = center + w / 2;
-        const pad = 12;
-        let shift = 0;
-        if (left < pad) shift = pad - left;
-        else if (right > window.innerWidth - pad) shift = window.innerWidth - pad - right;
-        if (shift !== 0) mega.style.setProperty('--hdr3-mega-shift', shift + 'px');
-      });
-    };
     megaItems.forEach((item) => {
       const trigger = item.querySelector('.hdr3-nav-link');
-      const open = () => { clearTimeout(megaCloseTimer); megaItems.forEach(i => i !== item && i.classList.remove('is-open')); item.classList.add('is-open'); trigger.setAttribute('aria-expanded', 'true'); clampMega(item); };
+      const open = () => { clearTimeout(megaCloseTimer); megaItems.forEach(i => i !== item && i.classList.remove('is-open')); item.classList.add('is-open'); trigger.setAttribute('aria-expanded', 'true'); };
       const close = () => { megaCloseTimer = setTimeout(() => { item.classList.remove('is-open'); trigger.setAttribute('aria-expanded', 'false'); }, 140); };
       item.addEventListener('mouseenter', open);
       item.addEventListener('mouseleave', close);
       trigger.addEventListener('click', (e) => { e.preventDefault(); if (item.classList.contains('is-open')) { item.classList.remove('is-open'); trigger.setAttribute('aria-expanded', 'false'); } else open(); });
       trigger.addEventListener('focus', open);
-    });
-    // Re-clamp on viewport resize while a menu is open
-    window.addEventListener('resize', () => {
-      megaItems.forEach(i => { if (i.classList.contains('is-open')) clampMega(i); });
     });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') megaItems.forEach(i => { i.classList.remove('is-open'); const t = i.querySelector('.hdr3-nav-link'); if (t) t.setAttribute('aria-expanded', 'false'); }); });
     document.addEventListener('click', (e) => { if (!root.contains(e.target)) megaItems.forEach(i => i.classList.remove('is-open')); });
