@@ -836,7 +836,7 @@ main:focus { outline: none; }
 .nl3-mock-meta { display: flex; gap: 12px; align-items: center; }
 .nl3-mock-issue { color: var(--crimson); font-weight: 700; }
 .nl3-mock-brand { display: inline-flex; align-items: center; gap: 8px; }
-.nl3-mock-mark { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: var(--on-paper); color: var(--paper); font-family: var(--font-ar-display); font-weight: 700; font-size: 13px; }
+.nl3-mock-mark { display: inline-block; width: 22px; height: 22px; object-fit: contain; }
 .nl3-mock-name { font-family: var(--font-ar-body); font-size: 11px; letter-spacing: 0.04em; color: var(--on-paper); text-transform: none; }
 .nl3-mock-hed { font-family: var(--font-ar-display); font-size: clamp(22px,2.2vw,32px); line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 10px; color: var(--on-paper); }
 .nl3-mock-deck { font-size: 14px; line-height: 1.55; color: var(--on-paper-2); margin: 0 0 22px; padding-bottom: 18px; border-bottom: 1px solid var(--hairline-paper); }
