@@ -52,7 +52,9 @@
   --font-ar-display: 'Mostaqbali', 'Almarai', 'Reem Kufi', 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --font-ar-body:    'Graphik Arabic', 'Graphik', 'Tajawal', 'Almarai', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-ar-alt:     'Madani Arabic', 'Cairo', 'Almarai', 'Tajawal', system-ui, sans-serif;
-  --font-en:         'Graphik', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-en:         'Bricolage Grotesque', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-en-display: 'Bricolage Grotesque', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-en-body:    'Bricolage Grotesque', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono:       'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
   --font-serif:      'Instrument Serif', 'Times New Roman', Georgia, serif;
 
