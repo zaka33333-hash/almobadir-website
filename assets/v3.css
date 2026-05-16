@@ -241,11 +241,9 @@ main:focus { outline: none; }
   filter: drop-shadow(0 0 26px rgba(230,33,59,0.36)); }
 
 /* Footer brand mark — replaces the SVG-text letterpress render. The image
-   is the official brand wordmark in dark (AR) or white (EN). The .ftr3-mark__dot
-   keeps the small red accent dot that was on top of the SVG. */
+   is the official brand wordmark in dark (AR) or white (EN). */
 .ftr3-mark__img { display: block; width: 100%; max-width: 360px; height: auto; }
 .ftr3-mark--press .ftr3-mark__img { filter: drop-shadow(0 1px 0 rgba(255,250,240,0.55)) drop-shadow(0 -1px 0 rgba(26,15,8,0.45)); }
-.ftr3-mark__dot { position: absolute; width: 12px; height: 12px; border-radius: 999px; background: var(--crimson); inset-block-start: 8%; inset-inline-end: 14%; box-shadow: 0 0 10px var(--crimson); }
 .ftr3-mark { position: relative; display: inline-block; }
 .hero3__tagline { margin: 0; font-family: var(--font-ar-display); font-weight: 700; font-size: clamp(30px,4.2vw,60px); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 0.32em; align-items: baseline; padding-block: 0.04em; }
 .hero3__tagline-accent { font-style: normal; background: linear-gradient(180deg, var(--crimson) 0%, var(--crimson-2) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-inline: 0.04em; position: relative; }
